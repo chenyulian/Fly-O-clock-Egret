@@ -1,0 +1,4 @@
+class SoundUtils {
+	public constructor() {
+	}
+}

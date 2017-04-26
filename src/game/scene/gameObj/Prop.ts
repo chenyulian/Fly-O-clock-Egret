@@ -1,0 +1,4 @@
+class Prop {
+	public constructor() {
+	}
+}

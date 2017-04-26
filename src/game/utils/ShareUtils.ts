@@ -1,0 +1,4 @@
+class ShareUtils {
+	public constructor() {
+	}
+}

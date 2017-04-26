@@ -1,0 +1,4 @@
+class GameData {
+	public constructor() {
+	}
+}

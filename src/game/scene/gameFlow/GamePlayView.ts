@@ -1,0 +1,4 @@
+class GamePlayView {
+	public constructor() {
+	}
+}

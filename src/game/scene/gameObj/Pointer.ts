@@ -1,0 +1,4 @@
+class Pointer {
+	public constructor() {
+	}
+}

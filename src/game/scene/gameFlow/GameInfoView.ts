@@ -1,0 +1,4 @@
+class GameInfoView {
+	public constructor() {
+	}
+}
