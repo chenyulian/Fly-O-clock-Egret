@@ -1,0 +1,4 @@
+class GameStartBtn {
+	public constructor() {
+	}
+}

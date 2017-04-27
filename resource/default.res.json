@@ -1,23 +1,120 @@
 {
-	"groups":[
-	{
-		"keys":"bg_jpg,egret_icon_png,description_json",
-		"name":"preload"
-	}],
-	"resources":[
-	{
-		"name":"bg_jpg",
-		"type":"image",
-		"url":"assets/bg.jpg"
-	},
-	{
-		"name":"egret_icon_png",
-		"type":"image",
-		"url":"assets/egret_icon.png"
-	},
-	{
-		"name":"description_json",
-		"type":"json",
-		"url":"config/description.json"
-	}]
+	"groups": [
+		{
+			"keys": "bg_jpg,egret_icon_png,description_json,Select_png,ADVENTURE_png,CHALLENGE_png,Clock_png,ClockCenter_png,ClockWithTie_png,CoinsContainer_png,GameStartBtn_png,GameTitle_png,jump_png,JumpBtn_png,LeftArray_png,LOCKED_png,Player_png,PlayerWithShadow_png,Pointer_png,RecordButton_png,Records_png,RightArray_png",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"name": "bg_jpg",
+			"type": "image",
+			"url": "assets/bg.jpg"
+		},
+		{
+			"name": "egret_icon_png",
+			"type": "image",
+			"url": "assets/egret_icon.png"
+		},
+		{
+			"name": "description_json",
+			"type": "json",
+			"url": "config/description.json"
+		},
+		{
+			"name": "Select_png",
+			"type": "image",
+			"url": "assets/Select.png"
+		},
+		{
+			"name": "ADVENTURE_png",
+			"type": "image",
+			"url": "assets/ADVENTURE.png"
+		},
+		{
+			"name": "CHALLENGE_png",
+			"type": "image",
+			"url": "assets/CHALLENGE.png"
+		},
+		{
+			"name": "Clock_png",
+			"type": "image",
+			"url": "assets/Clock.png"
+		},
+		{
+			"name": "ClockCenter_png",
+			"type": "image",
+			"url": "assets/ClockCenter.png"
+		},
+		{
+			"name": "ClockWithTie_png",
+			"type": "image",
+			"url": "assets/ClockWithTie.png"
+		},
+		{
+			"name": "CoinsContainer_png",
+			"type": "image",
+			"url": "assets/CoinsContainer.png"
+		},
+		{
+			"name": "GameStartBtn_png",
+			"type": "image",
+			"url": "assets/GameStartBtn.png"
+		},
+		{
+			"name": "GameTitle_png",
+			"type": "image",
+			"url": "assets/GameTitle.png"
+		},
+		{
+			"name": "jump_png",
+			"type": "image",
+			"url": "assets/jump.png"
+		},
+		{
+			"name": "JumpBtn_png",
+			"type": "image",
+			"url": "assets/JumpBtn.png"
+		},
+		{
+			"name": "LeftArray_png",
+			"type": "image",
+			"url": "assets/LeftArray.png"
+		},
+		{
+			"name": "LOCKED_png",
+			"type": "image",
+			"url": "assets/LOCKED.png"
+		},
+		{
+			"name": "Player_png",
+			"type": "image",
+			"url": "assets/Player.png"
+		},
+		{
+			"name": "PlayerWithShadow_png",
+			"type": "image",
+			"url": "assets/PlayerWithShadow.png"
+		},
+		{
+			"name": "Pointer_png",
+			"type": "image",
+			"url": "assets/Pointer.png"
+		},
+		{
+			"name": "RecordButton_png",
+			"type": "image",
+			"url": "assets/RecordButton.png"
+		},
+		{
+			"name": "Records_png",
+			"type": "image",
+			"url": "assets/Records.png"
+		},
+		{
+			"name": "RightArray_png",
+			"type": "image",
+			"url": "assets/RightArray.png"
+		}
+	]
 }

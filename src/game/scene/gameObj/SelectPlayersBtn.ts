@@ -1,0 +1,4 @@
+class SelectPlayersBtn {
+	public constructor() {
+	}
+}

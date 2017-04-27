@@ -1,4 +1,5 @@
 class GameBackgroundView {
 	public constructor() {
+		
 	}
 }
