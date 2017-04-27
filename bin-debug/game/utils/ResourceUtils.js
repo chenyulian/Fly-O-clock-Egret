@@ -7,6 +7,13 @@ var __reflect = (this && this.__reflect) || function (p, c, t) {
 var ResourceUtils = (function () {
     function ResourceUtils() {
     }
+    //根据名称查询获取bitmap资源
+    ResourceUtils.createBitmapByName = function (name) {
+        var bitmapWithName = new egret.Bitmap();
+        var texture = RES.getRes(name);
+        bitmapWithName.texture = texture;
+        return bitmapWithName;
+    };
     return ResourceUtils;
 }());
 __reflect(ResourceUtils.prototype, "ResourceUtils");

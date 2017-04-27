@@ -109,8 +109,10 @@ var Main = (function (_super) {
      * Create a game scene
      */
     Main.prototype.createGameScene = function () {
-        this._welcomeScene = new GameWelcomeView();
+        this._welcomeScene = new GameWelcomeView(this);
+        //button.addChild(bg);
         this.addChild(this._welcomeScene);
+        //this.addChild(bg);
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
@@ -148,6 +150,8 @@ var Main = (function (_super) {
             tw.call(change, _this);
         };
         change();
+    };
+    Main.prototype.onGameStartBtnClicked = function () {
     };
     return Main;
 }(egret.DisplayObjectContainer));

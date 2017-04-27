@@ -119,8 +119,11 @@ class Main extends egret.DisplayObjectContainer {
      */
 
     private createGameScene() {
-        this._welcomeScene = new GameWelcomeView();
+        this._welcomeScene = new GameWelcomeView(this);
+        
+        //button.addChild(bg);
         this.addChild(this._welcomeScene);
+        //this.addChild(bg);
     }
 
     /**
@@ -162,6 +165,10 @@ class Main extends egret.DisplayObjectContainer {
         };
 
         change();
+    }
+
+    private onGameStartBtnClicked():void{
+
     }
 }
 

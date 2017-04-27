@@ -1,16 +1,11 @@
 {
 	"groups": [
 		{
-			"keys": "bg_jpg,egret_icon_png,description_json,Select_png,ADVENTURE_png,CHALLENGE_png,Clock_png,ClockCenter_png,ClockWithTie_png,CoinsContainer_png,GameStartBtn_png,GameTitle_png,jump_png,JumpBtn_png,LeftArray_png,LOCKED_png,Player_png,PlayerWithShadow_png,Pointer_png,RecordButton_png,Records_png,RightArray_png",
+			"keys": "egret_icon_png,description_json,Select_png,ADVENTURE_png,CHALLENGE_png,Clock_png,ClockCenter_png,ClockWithTie_png,CoinsContainer_png,GameStartBtn_png,GameTitle_png,JumpBtn_png,LeftArray_png,LOCKED_png,PlayerWithShadow_png,Pointer_png,RecordButton_png,Records_png,RightArray_png,JumpBtnClicked_png,GameOverView_png,Player_png",
 			"name": "preload"
 		}
 	],
 	"resources": [
-		{
-			"name": "bg_jpg",
-			"type": "image",
-			"url": "assets/bg.jpg"
-		},
 		{
 			"name": "egret_icon_png",
 			"type": "image",
@@ -67,11 +62,6 @@
 			"url": "assets/GameTitle.png"
 		},
 		{
-			"name": "jump_png",
-			"type": "image",
-			"url": "assets/jump.png"
-		},
-		{
 			"name": "JumpBtn_png",
 			"type": "image",
 			"url": "assets/JumpBtn.png"
@@ -85,11 +75,6 @@
 			"name": "LOCKED_png",
 			"type": "image",
 			"url": "assets/LOCKED.png"
-		},
-		{
-			"name": "Player_png",
-			"type": "image",
-			"url": "assets/Player.png"
 		},
 		{
 			"name": "PlayerWithShadow_png",
@@ -115,6 +100,21 @@
 			"name": "RightArray_png",
 			"type": "image",
 			"url": "assets/RightArray.png"
+		},
+		{
+			"name": "JumpBtnClicked_png",
+			"type": "image",
+			"url": "assets/JumpBtnClicked.png"
+		},
+		{
+			"name": "GameOverView_png",
+			"type": "image",
+			"url": "assets/GameOverView.png"
+		},
+		{
+			"name": "Player_png",
+			"type": "image",
+			"url": "assets/player/Player.png"
 		}
 	]
 }
