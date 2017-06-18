@@ -5,10 +5,12 @@ class GameWelcomeView extends egret.Sprite{
 	private _leftArrayBtn:egret.Bitmap;
 	private _rightArrayBtn:egret.Bitmap;
 
+	private _gameSceneView:GameSceneView;
 	public constructor(displayObjectContainer:egret.DisplayObjectContainer) {
 		super();
+		this._gameSceneView = new GameSceneView(displayObjectContainer);
 		this.fillBackGround(displayObjectContainer);
-		this.initView(displayObjectContainer);
+		this.initView();
 	}
 
 	private fillBackGround(displayObectContainer:egret.DisplayObjectContainer):void{
@@ -17,7 +19,7 @@ class GameWelcomeView extends egret.Sprite{
 		this.graphics.drawRect(0, 0, displayObectContainer.stage.stageWidth, displayObectContainer.stage.stageHeight);
 		this.graphics.endFill;
 	}
-	private initView(displayObjectContainer:egret.DisplayObjectContainer):void{
+	private initView():void{
 		//添加title
 		this._gameTitle = ResourceUtils.createBitmapByName("GameTitle_png");
 		this._gameTitle.x = 220;
@@ -28,13 +30,15 @@ class GameWelcomeView extends egret.Sprite{
 		this._gameStartBtn.x = 220;
 		this._gameStartBtn.y = 900;
 		this.addChild(this._gameStartBtn);
+		this._gameStartBtn.touchEnabled = true;
+		this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onStartBtnClickEvent, this);
 		//添加player
 		this._player = new Player("PlayerWithShadow_png");
 		this._player.x = 220;
 		this._player.y = 500;
 		this.addChild(this._player);
-		this._gameStartBtn.touchEnabled = true;
-		this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClickEvent, this);
+		
+		
 		//添加左右箭头以选择不同的player
 		this._leftArrayBtn = ResourceUtils.createBitmapByName("LeftArray_png");
 		this._rightArrayBtn = ResourceUtils.createBitmapByName("RightArray_png");
@@ -46,7 +50,12 @@ class GameWelcomeView extends egret.Sprite{
 		this.addChild(this._rightArrayBtn);
 	}
 
-	private onClickEvent():void{
-		console.log("game start!");
+	private onStartBtnClickEvent():void{
+		console.log("enter game play scene");
+		this.removeChildren();
+		
+		this.addChild(this._gameSceneView);
+		
+		//game.play();
 	}
 }

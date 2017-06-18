@@ -8,5 +8,6 @@ class ResourceUtils {
 		var texture:egret.Texture = RES.getRes(name);
 		bitmapWithName.texture = texture;
 		return bitmapWithName;
+	
 	}
 }
