@@ -53,6 +53,8 @@ var GameWelcomeView = (function (_super) {
         console.log("enter game play scene");
         this.removeChildren();
         this.addChild(this._gameSceneView);
+        var gameOverView = new GameOverView(0, 0);
+        this.addChild(gameOverView);
         //game.play();
     };
     return GameWelcomeView;

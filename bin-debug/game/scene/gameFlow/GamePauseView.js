@@ -6,16 +6,16 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var GameOverView = (function (_super) {
-    __extends(GameOverView, _super);
-    function GameOverView(curScore, bestScore) {
+var GamePauseView = (function (_super) {
+    __extends(GamePauseView, _super);
+    function GamePauseView(displayObjectContainer) {
         var _this = _super.call(this) || this;
-        _this.graphics.beginFill(0xF08080);
-        _this.graphics.drawRoundRect(100, 100, 400, 600, 50, 50);
+        _this.graphics.beginFill(0x000000, 0.5);
+        _this.graphics.drawRect(0, 0, displayObjectContainer.stage.stageWidth, displayObjectContainer.stage.stageHeight);
         _this.graphics.endFill;
         return _this;
     }
-    return GameOverView;
+    return GamePauseView;
 }(egret.Sprite));
-__reflect(GameOverView.prototype, "GameOverView");
-//# sourceMappingURL=GameOverView.js.map
+__reflect(GamePauseView.prototype, "GamePauseView");
+//# sourceMappingURL=GamePauseView.js.map

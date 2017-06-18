@@ -7,7 +7,7 @@ class GameOverView extends egret.Sprite{
 	public constructor(curScore:number, bestScore:number) {
 		super();
 		this.graphics.beginFill(0xF08080);
-		this.graphics.drawRoundRect(50, 50, 400, 500, 20, 20);
+		this.graphics.drawRoundRect(100, 100, 400, 600, 50, 50);
 		this.graphics.endFill;
 		
 	}

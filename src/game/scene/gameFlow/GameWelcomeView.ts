@@ -55,6 +55,8 @@ class GameWelcomeView extends egret.Sprite{
 		this.removeChildren();
 		
 		this.addChild(this._gameSceneView);
+		var gameOverView:GameOverView = new GameOverView(0,0);
+        this.addChild(gameOverView);
 		
 		//game.play();
 	}

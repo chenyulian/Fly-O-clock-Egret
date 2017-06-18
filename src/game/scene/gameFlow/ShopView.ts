@@ -1,0 +1,4 @@
+class ShopView {
+	public constructor() {
+	}
+}

@@ -12,6 +12,7 @@ var GameSceneView = (function (_super) {
     function GameSceneView(displayContainerObject) {
         var _this = _super.call(this) || this;
         GameSceneView._gameScene = _this;
+        _this._gamePauseView = new GamePauseView(displayContainerObject);
         _this.initView(displayContainerObject);
         return _this;
     }
@@ -23,6 +24,7 @@ var GameSceneView = (function (_super) {
         shape.graphics.drawRect(0, 0, displayContainerObject.stage.stageWidth, displayContainerObject.stage.stageHeight);
         shape.graphics.endFill();
         this.addChild(shape);
+        this.addChild(this._gamePauseView);
     };
     GameSceneView.prototype.play = function () {
         //this.removeChildren();

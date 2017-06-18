@@ -2,10 +2,12 @@
 class GameSceneView extends egret.Sprite{
     public static _gameScene:GameSceneView;
     private gameSceneContainer:egret.Sprite;
+    private _gamePauseView:GamePauseView;
 
     constructor(displayContainerObject:egret.DisplayObjectContainer){
         super();
         GameSceneView._gameScene = this;
+        this._gamePauseView = new GamePauseView(displayContainerObject);
         this.initView(displayContainerObject);
     }
 
@@ -17,6 +19,7 @@ class GameSceneView extends egret.Sprite{
         shape.graphics.drawRect(0, 0, displayContainerObject.stage.stageWidth, displayContainerObject.stage.stageHeight);
         shape.graphics.endFill();
         this.addChild(shape);
+        this.addChild(this._gamePauseView);
     }
 
     public play():void{
