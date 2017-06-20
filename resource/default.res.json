@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "egret_icon_png,description_json,Select_png,ADVENTURE_png,CHALLENGE_png,Clock_png,ClockCenter_png,ClockWithTie_png,CoinsContainer_png,GameStartBtn_png,GameTitle_png,JumpBtn_png,LeftArray_png,LOCKED_png,PlayerWithShadow_png,Pointer_png,RecordButton_png,Records_png,RightArray_png,JumpBtnClicked_png,GameOverView_png,Player_png",
+			"keys": "egret_icon_png,description_json,Select_png,ADVENTURE_png,CHALLENGE_png,Clock_png,ClockCenter_png,ClockWithTie_png,CoinsContainer_png,GameStartBtn_png,GameTitle_png,JumpBtn_png,LeftArray_png,LOCKED_png,PlayerWithShadow_png,Pointer_png,RecordButton_png,Records_png,RightArray_png,JumpBtnClicked_png,GameOverView_png,Player_png,pinkBtn_png,pointerCenter_png,pointer_png",
 			"name": "preload"
 		}
 	],
@@ -115,6 +115,21 @@
 			"name": "Player_png",
 			"type": "image",
 			"url": "assets/player/Player.png"
+		},
+		{
+			"name": "pinkBtn_png",
+			"type": "image",
+			"url": "assets/pinkBtn.png"
+		},
+		{
+			"name": "pointerCenter_png",
+			"type": "image",
+			"url": "assets/pointerCenter.png"
+		},
+		{
+			"name": "pointer_png",
+			"type": "image",
+			"url": "assets/pointer.png"
 		}
 	]
 }

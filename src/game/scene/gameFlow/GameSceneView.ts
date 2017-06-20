@@ -2,6 +2,7 @@
 class GameSceneView extends egret.Sprite{
     public static _gameScene:GameSceneView;
     private gameSceneContainer:egret.Sprite;
+    //暂停场景
     private _gamePauseView:GamePauseView;
 
     constructor(displayContainerObject:egret.DisplayObjectContainer){
@@ -19,7 +20,26 @@ class GameSceneView extends egret.Sprite{
         shape.graphics.drawRect(0, 0, displayContainerObject.stage.stageWidth, displayContainerObject.stage.stageHeight);
         shape.graphics.endFill();
         this.addChild(shape);
-        this.addChild(this._gamePauseView);
+        /*
+        var pinkBtn:egret.Bitmap;
+        pinkBtn = ResourceUtils.createBitmapByName("pinkBtn_png");
+        pinkBtn.x = 0;
+        pinkBtn.y = 0;
+        this.addChild(pinkBtn);
+        */
+
+        var PointerCenter:egret.Bitmap;
+        var pointer:egret.Bitmap;
+        var PointerCenterData:egret.BitmapData;
+        
+        
+        PointerCenter = ResourceUtils.createBitmapByName("pointerCenter_png");
+        PointerCenterData = new egret.BitmapData(PointerCenter);
+        PointerCenter.x = 320  - PointerCenterData.width / 2.0;
+        PointerCenter.y = 568 - PointerCenterData.height / 2.0 ;
+        
+        console.log("PointerCenterData width:" + PointerCenterData.width + " height:" + PointerCenterData.height);
+        this.addChild(PointerCenter);
     }
 
     public play():void{

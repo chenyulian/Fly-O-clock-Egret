@@ -112,6 +112,7 @@ var Main = (function (_super) {
         this._welcomeScene = new GameWelcomeView(this);
         //button.addChild(bg);
         this.addChild(this._welcomeScene);
+        console.log("width:" + this.stage.stageWidth + "  Height:" + this.stage.stageHeight);
         //this.addChild(bg);
     };
     /**
