@@ -17,6 +17,7 @@ var GameSceneView = (function (_super) {
         return _this;
     }
     GameSceneView.prototype.initView = function (displayContainerObject) {
+        var _this = this;
         //this.gameSceneContainer = new egret.Sprite();
         //this.addChild(this.gameSceneContainer);
         var shape = new egret.Shape();
@@ -24,30 +25,39 @@ var GameSceneView = (function (_super) {
         shape.graphics.drawRect(0, 0, displayContainerObject.stage.stageWidth, displayContainerObject.stage.stageHeight);
         shape.graphics.endFill();
         this.addChild(shape);
-        /*
-        var pinkBtn:egret.Bitmap;
-        pinkBtn = ResourceUtils.createBitmapByName("pinkBtn_png");
-        pinkBtn.x = 0;
-        pinkBtn.y = 0;
-        this.addChild(pinkBtn);
-        */
-        var PointerCenter;
-        var pointer;
-        var PointerCenterData;
-        PointerCenter = ResourceUtils.createBitmapByName("pointerCenter_png");
-        PointerCenterData = new egret.BitmapData(PointerCenter);
-        PointerCenter.x = 320 - PointerCenterData.width / 2.0;
-        PointerCenter.y = 568 - PointerCenterData.height / 2.0;
-        console.log("PointerCenterData width:" + PointerCenterData.width + " height:" + PointerCenterData.height);
-        this.addChild(PointerCenter);
+        var JumpBtn;
+        this._PointerCenter = ResourceUtils.createBitmapByName("pointerCenter_png");
+        this._PointerCenterData = new egret.BitmapData(this._PointerCenter);
+        this._PointerCenter.x = 320 - this._PointerCenterData.width / 2.0;
+        this._PointerCenter.y = 568 - this._PointerCenterData.height / 2.0;
+        this._pointer = ResourceUtils.createBitmapByName("pointer_png");
+        this._PointerData = new egret.BitmapData(this._pointer);
+        console.log("PointerCenterData width:" + this._PointerCenterData.width + " height:" + this._PointerCenterData.height);
+        this.addChild(this._PointerCenter);
+        this.addChildAt(this._pointer, 1);
+        // var i:number;
+        // i = 0;
+        // while(i <=100){
+        //     pointer.rotation += 3;
+        //     i ++;
+        // }
+        this._pointer.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
+            //this._pointer.rotation += 10;
+            _this._pointer.anchorOffsetX = _this._PointerData.width / 2;
+            _this._pointer.anchorOffsetY = _this._PointerData.height - _this._PointerData.height / 10;
+            _this._pointer.x = _this._PointerCenter.x + _this._PointerCenterData.width / 2;
+            _this._pointer.y = _this._PointerCenter.y + _this._PointerCenterData.height / 2;
+            _this._pointer.rotation += 3;
+        }, this);
+        console.log("anchorOffsetX: " + this._pointer.anchorOffsetX, +" anchorOffsetY:" + this._pointer.anchorOffsetY);
     };
     GameSceneView.prototype.play = function () {
         //this.removeChildren();
-        var shape = new egret.Shape();
-        shape.graphics.beginFill(0x0000ff);
-        //shape.graphics.drawRect(0, 0, , 200);
-        shape.graphics.endFill();
-        this.addChild(shape);
+        this._pointer.anchorOffsetX = 320;
+        this._pointer.anchorOffsetY = 568;
+        this._pointer.x = this._PointerCenter.x + (this._PointerCenterData.width - this._PointerData.width) / 2.0;
+        this._pointer.y = this._PointerCenter.y - this._PointerData.height;
+        this._pointer.rotation += 3;
     };
     GameSceneView.prototype.gameOver = function () {
         var gameOverView = new GameOverView(0, 0);
