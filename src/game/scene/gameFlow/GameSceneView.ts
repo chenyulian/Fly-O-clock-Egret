@@ -8,6 +8,9 @@ class GameSceneView extends egret.Sprite{
     private _PointerCenter:egret.Bitmap;
     private _PointerCenterData:egret.BitmapData;
     private _PointerData:egret.BitmapData;
+    private _bird:egret.Bitmap;
+    private _birdData:egret.BitmapData;
+
 
     constructor(displayContainerObject:egret.DisplayObjectContainer){
         super();
@@ -27,7 +30,12 @@ class GameSceneView extends egret.Sprite{
 
         
         var JumpBtn:egret.Bitmap;
-        
+        var JumpBtnData:egret.BitmapData;
+        JumpBtn = ResourceUtils.createBitmapByName("JumpBtn_png");
+        JumpBtnData = new egret.BitmapData(JumpBtn);
+        JumpBtn.x = 320 - JumpBtnData.width / 2;
+        JumpBtn.y = 820;
+
         this._PointerCenter = ResourceUtils.createBitmapByName("pointerCenter_png");
 
         this._PointerCenterData = new egret.BitmapData(this._PointerCenter);
@@ -37,23 +45,20 @@ class GameSceneView extends egret.Sprite{
         this._pointer = ResourceUtils.createBitmapByName("pointer_png");
         this._PointerData = new egret.BitmapData(this._pointer);
         
-        
-        
+        this._bird = ResourceUtils.createBitmapByName("bird_png");
+        this._birdData = new egret.BitmapData(this._bird);
+        this._bird.x = 120;
+        this._bird.y = 400;
 
-        console.log("PointerCenterData width:" + this._PointerCenterData.width + " height:" + this._PointerCenterData.height);
         this.addChild(this._PointerCenter);
         this.addChildAt(this._pointer, 1);
-        // var i:number;
-        // i = 0;
-        // while(i <=100){
-        //     pointer.rotation += 3;
-        //     i ++;
-        // }
+        this.addChild(this._bird);
+        this.addChild(JumpBtn);
 
         this._pointer.addEventListener(egret.Event.ENTER_FRAME, (evt:egret.Event)=>{
             //this._pointer.rotation += 10;
             this._pointer.anchorOffsetX = this._PointerData.width / 2;
-            this._pointer.anchorOffsetY = this._PointerData.height - this._PointerData.height / 10;
+            this._pointer.anchorOffsetY = this._PointerData.height - this._PointerData.height / 20;
             this._pointer.x = this._PointerCenter.x + this._PointerCenterData.width / 2;
             this._pointer.y = this._PointerCenter.y + this._PointerCenterData.height / 2;
 

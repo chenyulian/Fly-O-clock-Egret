@@ -26,25 +26,29 @@ var GameSceneView = (function (_super) {
         shape.graphics.endFill();
         this.addChild(shape);
         var JumpBtn;
+        var JumpBtnData;
+        JumpBtn = ResourceUtils.createBitmapByName("JumpBtn_png");
+        JumpBtnData = new egret.BitmapData(JumpBtn);
+        JumpBtn.x = 320 - JumpBtnData.width / 2;
+        JumpBtn.y = 820;
         this._PointerCenter = ResourceUtils.createBitmapByName("pointerCenter_png");
         this._PointerCenterData = new egret.BitmapData(this._PointerCenter);
         this._PointerCenter.x = 320 - this._PointerCenterData.width / 2.0;
         this._PointerCenter.y = 568 - this._PointerCenterData.height / 2.0;
         this._pointer = ResourceUtils.createBitmapByName("pointer_png");
         this._PointerData = new egret.BitmapData(this._pointer);
-        console.log("PointerCenterData width:" + this._PointerCenterData.width + " height:" + this._PointerCenterData.height);
+        this._bird = ResourceUtils.createBitmapByName("bird_png");
+        this._birdData = new egret.BitmapData(this._bird);
+        this._bird.x = 120;
+        this._bird.y = 400;
         this.addChild(this._PointerCenter);
         this.addChildAt(this._pointer, 1);
-        // var i:number;
-        // i = 0;
-        // while(i <=100){
-        //     pointer.rotation += 3;
-        //     i ++;
-        // }
+        this.addChild(this._bird);
+        this.addChild(JumpBtn);
         this._pointer.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
             //this._pointer.rotation += 10;
             _this._pointer.anchorOffsetX = _this._PointerData.width / 2;
-            _this._pointer.anchorOffsetY = _this._PointerData.height - _this._PointerData.height / 10;
+            _this._pointer.anchorOffsetY = _this._PointerData.height - _this._PointerData.height / 20;
             _this._pointer.x = _this._PointerCenter.x + _this._PointerCenterData.width / 2;
             _this._pointer.y = _this._PointerCenter.y + _this._PointerCenterData.height / 2;
             _this._pointer.rotation += 3;
