@@ -31,6 +31,8 @@ var GameSceneView = (function (_super) {
         JumpBtnData = new egret.BitmapData(JumpBtn);
         JumpBtn.x = 320 - JumpBtnData.width / 2;
         JumpBtn.y = 820;
+        JumpBtn.touchEnabled = true;
+        JumpBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.jump, this);
         this._PointerCenter = ResourceUtils.createBitmapByName("pointerCenter_png");
         this._PointerCenterData = new egret.BitmapData(this._PointerCenter);
         this._PointerCenter.x = 320 - this._PointerCenterData.width / 2.0;
@@ -41,6 +43,14 @@ var GameSceneView = (function (_super) {
         this._birdData = new egret.BitmapData(this._bird);
         this._bird.x = 120;
         this._bird.y = 400;
+        //可跳跃的4个点的坐标
+        this._vcLocation = [
+            new egret.Point(120, 400),
+            new egret.Point(442, 400),
+            new egret.Point(442, 627),
+            new egret.Point(120, 627),
+        ];
+        this._idOfCurLocation = 0;
         this.addChild(this._PointerCenter);
         this.addChildAt(this._pointer, 1);
         this.addChild(this._bird);
@@ -62,6 +72,18 @@ var GameSceneView = (function (_super) {
         this._pointer.x = this._PointerCenter.x + (this._PointerCenterData.width - this._PointerData.width) / 2.0;
         this._pointer.y = this._PointerCenter.y - this._PointerData.height;
         this._pointer.rotation += 3;
+    };
+    GameSceneView.prototype.jump = function () {
+        console.log("jump btn clicked");
+        console.log(this._idOfCurLocation);
+        //保证当前位置的id不超过3（数组下标最大值）
+        if (this._idOfCurLocation >= 3) {
+            this._idOfCurLocation -= 4;
+        }
+        //下一个跳跃的点为当前点的下一个
+        egret.Tween.get(this._bird).to({ x: this._vcLocation[this._idOfCurLocation + 1].x, y: this._vcLocation[this._idOfCurLocation + 1].y }, 300, egret.Ease.sineIn);
+        //egret.Tween.get(this._bird).to({x:442, y:400}, 300, egret.Ease.sineIn);
+        this._idOfCurLocation += 1;
     };
     GameSceneView.prototype.gameOver = function () {
         var gameOverView = new GameOverView(0, 0);
