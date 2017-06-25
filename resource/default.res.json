@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "egret_icon_png,description_json,Select_png,ADVENTURE_png,CHALLENGE_png,Clock_png,ClockCenter_png,ClockWithTie_png,CoinsContainer_png,GameStartBtn_png,GameTitle_png,JumpBtn_png,LeftArray_png,LOCKED_png,PlayerWithShadow_png,Pointer_png,RecordButton_png,Records_png,RightArray_png,JumpBtnClicked_png,GameOverView_png,Player_png,pinkBtn_png,pointerCenter_png,pointer_png,bird_png,coin_png,title_png,main_background_png,coin_column_1_png,shadow_png,BirdWithoutShadow_png",
+			"keys": "egret_icon_png,description_json,ADVENTURE_png,CHALLENGE_png,Clock_png,ClockCenter_png,ClockWithTie_png,CoinsContainer_png,GameStartBtn_png,GameTitle_png,JumpBtn_png,LeftArray_png,LOCKED_png,PlayerWithShadow_png,Pointer_png,RecordButton_png,Records_png,RightArray_png,JumpBtnClicked_png,GameOverView_png,Player_png,pinkBtn_png,pointerCenter_png,pointer_png,bird_png,coin_png,title_png,main_background_png,shadow_png,BirdWithoutShadow_png,challenge_button_bg_png,challenge_button_png,selected_png,select_png,left_arrow_gray_png,left_arrow_png,right_arrow_gray_png,right_arrow_png,adventure_button_bg_png,adventure_button_png,Unlock_png,unlock_png,coin_column_bg_png,coin_column_png,role_buying_panel_closing_png,role_buying_panel_png,unlock_with_challenging_shadow_png,unlock_with_challenging_png,unlock_with_coins_gray_png,unlock_with_coins_shadow_png,unlock_with_coins_png,OR_png,bg_blue_png,bg_green_png,bg_orange_png,bg_pink_png,bg_purple_png,clock_green_png,clock_purple_png,clock_yellow_png,coin2_png,coin_column2_png,coin_column_shadow_png,fixed_point_png,home_button_png,home_button_shadow_png,jump_button_png,jump_button_shadow_png,score_column_png,watchband_png,finalscore_panel_png,home_button_2_png,home_button_2_shadow_png,reply_button_png,reply_button_shadow_png",
 			"name": "preload"
 		}
 	],
@@ -15,11 +15,6 @@
 			"name": "description_json",
 			"type": "json",
 			"url": "config/description.json"
-		},
-		{
-			"name": "Select_png",
-			"type": "image",
-			"url": "assets/Select.png"
 		},
 		{
 			"name": "ADVENTURE_png",
@@ -152,11 +147,6 @@
 			"url": "assets/main_background.png"
 		},
 		{
-			"name": "coin_column_1_png",
-			"type": "image",
-			"url": "assets/coin_column_1.png"
-		},
-		{
 			"name": "shadow_png",
 			"type": "image",
 			"url": "assets/shadow.png"
@@ -165,6 +155,231 @@
 			"name": "BirdWithoutShadow_png",
 			"type": "image",
 			"url": "assets/BirdWithoutShadow.png"
+		},
+		{
+			"name": "challenge_button_bg_png",
+			"type": "image",
+			"url": "assets/challenge_button/challenge_button_bg.png"
+		},
+		{
+			"name": "challenge_button_png",
+			"type": "image",
+			"url": "assets/challenge_button/challenge_button.png"
+		},
+		{
+			"name": "selected_png",
+			"type": "image",
+			"url": "assets/selected.png"
+		},
+		{
+			"name": "select_png",
+			"type": "image",
+			"url": "assets/select.png"
+		},
+		{
+			"name": "left_arrow_gray_png",
+			"type": "image",
+			"url": "assets/array/left_arrow_gray.png"
+		},
+		{
+			"name": "left_arrow_png",
+			"type": "image",
+			"url": "assets/array/left_arrow.png"
+		},
+		{
+			"name": "right_arrow_gray_png",
+			"type": "image",
+			"url": "assets/array/right_arrow_gray.png"
+		},
+		{
+			"name": "right_arrow_png",
+			"type": "image",
+			"url": "assets/array/right_arrow.png"
+		},
+		{
+			"name": "adventure_button_bg_png",
+			"type": "image",
+			"url": "assets/adventure_button/adventure_button_bg.png"
+		},
+		{
+			"name": "adventure_button_png",
+			"type": "image",
+			"url": "assets/adventure_button/adventure_button.png"
+		},
+		{
+			"name": "Unlock_png",
+			"type": "image",
+			"url": "assets/Unlock.png"
+		},
+		{
+			"name": "unlock_png",
+			"type": "image",
+			"url": "assets/unlock.png"
+		},
+		{
+			"name": "coin_column_bg_png",
+			"type": "image",
+			"url": "assets/adventure_button/coin_column_bg.png"
+		},
+		{
+			"name": "coin_column_png",
+			"type": "image",
+			"url": "assets/adventure_button/coin_column.png"
+		},
+		{
+			"name": "role_buying_panel_closing_png",
+			"type": "image",
+			"url": "assets/role_buying/role_buying_panel_closing.png"
+		},
+		{
+			"name": "role_buying_panel_png",
+			"type": "image",
+			"url": "assets/role_buying/role_buying_panel.png"
+		},
+		{
+			"name": "unlock_with_challenging_shadow_png",
+			"type": "image",
+			"url": "assets/role_buying/unlock_with_challenging_shadow.png"
+		},
+		{
+			"name": "unlock_with_challenging_png",
+			"type": "image",
+			"url": "assets/role_buying/unlock_with_challenging.png"
+		},
+		{
+			"name": "unlock_with_coins_gray_png",
+			"type": "image",
+			"url": "assets/role_buying/unlock_with_coins_gray.png"
+		},
+		{
+			"name": "unlock_with_coins_shadow_png",
+			"type": "image",
+			"url": "assets/role_buying/unlock_with_coins_shadow.png"
+		},
+		{
+			"name": "unlock_with_coins_png",
+			"type": "image",
+			"url": "assets/role_buying/unlock_with_coins.png"
+		},
+		{
+			"name": "OR_png",
+			"type": "image",
+			"url": "assets/role_buying/OR.png"
+		},
+		{
+			"name": "bg_blue_png",
+			"type": "image",
+			"url": "assets/game_scene/bg_blue.png"
+		},
+		{
+			"name": "bg_green_png",
+			"type": "image",
+			"url": "assets/game_scene/bg_green.png"
+		},
+		{
+			"name": "bg_orange_png",
+			"type": "image",
+			"url": "assets/game_scene/bg_orange.png"
+		},
+		{
+			"name": "bg_pink_png",
+			"type": "image",
+			"url": "assets/game_scene/bg_pink.png"
+		},
+		{
+			"name": "bg_purple_png",
+			"type": "image",
+			"url": "assets/game_scene/bg_purple.png"
+		},
+		{
+			"name": "clock_green_png",
+			"type": "image",
+			"url": "assets/game_scene/clock_green.png"
+		},
+		{
+			"name": "clock_purple_png",
+			"type": "image",
+			"url": "assets/game_scene/clock_purple.png"
+		},
+		{
+			"name": "clock_yellow_png",
+			"type": "image",
+			"url": "assets/game_scene/clock_yellow.png"
+		},
+		{
+			"name": "coin2_png",
+			"type": "image",
+			"url": "assets/game_scene/coin.png"
+		},
+		{
+			"name": "coin_column2_png",
+			"type": "image",
+			"url": "assets/game_scene/coin_column.png"
+		},
+		{
+			"name": "coin_column_shadow_png",
+			"type": "image",
+			"url": "assets/game_scene/coin_column_shadow.png"
+		},
+		{
+			"name": "fixed_point_png",
+			"type": "image",
+			"url": "assets/game_scene/fixed_point.png"
+		},
+		{
+			"name": "home_button_png",
+			"type": "image",
+			"url": "assets/game_scene/home_button.png"
+		},
+		{
+			"name": "home_button_shadow_png",
+			"type": "image",
+			"url": "assets/game_scene/home_button_shadow.png"
+		},
+		{
+			"name": "jump_button_png",
+			"type": "image",
+			"url": "assets/game_scene/jump_button.png"
+		},
+		{
+			"name": "jump_button_shadow_png",
+			"type": "image",
+			"url": "assets/game_scene/jump_button_shadow.png"
+		},
+		{
+			"name": "score_column_png",
+			"type": "image",
+			"url": "assets/game_scene/score_column.png"
+		},
+		{
+			"name": "watchband_png",
+			"type": "image",
+			"url": "assets/game_scene/watchband.png"
+		},
+		{
+			"name": "finalscore_panel_png",
+			"type": "image",
+			"url": "assets/score_count_panel/finalscore_panel.png"
+		},
+		{
+			"name": "home_button_2_png",
+			"type": "image",
+			"url": "assets/score_count_panel/home_button_2.png"
+		},
+		{
+			"name": "home_button_2_shadow_png",
+			"type": "image",
+			"url": "assets/score_count_panel/home_button_2_shadow.png"
+		},
+		{
+			"name": "reply_button_png",
+			"type": "image",
+			"url": "assets/score_count_panel/reply_button.png"
+		},
+		{
+			"name": "reply_button_shadow_png",
+			"type": "image",
+			"url": "assets/score_count_panel/reply_button_shadow.png"
 		}
 	]
 }
