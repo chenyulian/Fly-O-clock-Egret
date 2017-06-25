@@ -12,6 +12,7 @@ class GameSceneView extends egret.Sprite{
     private _birdData:egret.BitmapData;
     private _vcLocation:Array<egret.Point>;
     private _idOfCurLocation:number;
+    private _birdWithoutShadow:egret.Bitmap;
 
 
     constructor(displayContainerObject:egret.DisplayObjectContainer){
@@ -31,6 +32,7 @@ class GameSceneView extends egret.Sprite{
         this.addChild(shape);
 
         
+        
         var JumpBtn:egret.Bitmap;
         var JumpBtnData:egret.BitmapData;
         JumpBtn = ResourceUtils.createBitmapByName("JumpBtn_png");
@@ -49,17 +51,21 @@ class GameSceneView extends egret.Sprite{
         this._pointer = ResourceUtils.createBitmapByName("pointer_png");
         this._PointerData = new egret.BitmapData(this._pointer);
         
-        this._bird = ResourceUtils.createBitmapByName("bird_png");
+        this._bird = ResourceUtils.createBitmapByName("shadow_png");
         this._birdData = new egret.BitmapData(this._bird);
         this._bird.x = 120;
         this._bird.y = 400;
 
+        this._birdWithoutShadow = ResourceUtils.createBitmapByName("BirdWithoutShadow_png");
+        this._birdWithoutShadow.x = this._bird.x;
+        this._birdWithoutShadow.y = this._bird.y - 101;
+
         //可跳跃的4个点的坐标
         this._vcLocation = [
-            new egret.Point(120, 400),
-            new egret.Point(442, 400),
-            new egret.Point(442, 627),
+            new egret.Point(120, 350),
             new egret.Point(120, 627),
+            new egret.Point(397, 627),
+            new egret.Point(397, 350),
             
         ];
         this._idOfCurLocation = 0;
@@ -68,6 +74,7 @@ class GameSceneView extends egret.Sprite{
         this.addChildAt(this._pointer, 1);
         this.addChild(this._bird);
         this.addChild(JumpBtn);
+        this.addChild(this._birdWithoutShadow);
 
         this._pointer.addEventListener(egret.Event.ENTER_FRAME, (evt:egret.Event)=>{
             //this._pointer.rotation += 10;
@@ -79,11 +86,24 @@ class GameSceneView extends egret.Sprite{
             this._pointer.rotation += 3;
         }
         ,this);
+    }
+        //控制影子和本体的距离来体现跳跃的效果
+    //     this._birdWithoutShadow.addEventListener(egret.Event.ENTER_FRAME, (evt:egret.Event)=>{
+           
             
-        console.log("anchorOffsetX: "+ this._pointer.anchorOffsetX, + " anchorOffsetY:" + this._pointer.anchorOffsetY);
+    //         this._birdWithoutShadow.x = this._bird.x;
+    //         this._birdWithoutShadow.y = this._bird.y + 20 * (Math.sin((this._bird.y - 350) * Math.PI / 277)) - 101;
+    //         //distance = 
+           
+            
+    //     },
+    //     this);
+            
+    //     console.log("anchorOffsetX: "+ this._pointer.anchorOffsetX, + " anchorOffsetY:" + this._pointer.anchorOffsetY);
          
 
-    }
+    // }
+
 
     public play():void{
         //this.removeChildren();
@@ -96,20 +116,70 @@ class GameSceneView extends egret.Sprite{
         this._pointer.rotation += 3;
     }
     public jump():void{
-        console.log("jump btn clicked");
-        console.log(this._idOfCurLocation);
+        //console.log("jump btn clicked");
+        
         //保证当前位置的id不超过3（数组下标最大值）
          if(this._idOfCurLocation >= 3){
              this._idOfCurLocation -= 4;
          }
          //下一个跳跃的点为当前点的下一个
-         egret.Tween.get(this._bird).to({x: this._vcLocation[this._idOfCurLocation + 1].x, y: this._vcLocation[this._idOfCurLocation + 1].y}, 300, egret.Ease.sineIn);
-         //egret.Tween.get(this._bird).to({x:442, y:400}, 300, egret.Ease.sineIn);
-         this._idOfCurLocation += 1;
+          
+         egret.Tween.get(this._bird).to({x: this._vcLocation[this._idOfCurLocation + 1].x, y: this._vcLocation[this._idOfCurLocation + 1].y}, 1500, egret.Ease.sineIn);
          
+
+         //改变影子和本体的距离创造出跳跃感
+         switch(this._idOfCurLocation){
+             case 0:
+                this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
+                    this._birdWithoutShadow.x = this._bird.x;
+                    this._birdWithoutShadow.y = this._bird.y - 20 * (Math.sin((this._bird.y - 350) * Math.PI / 277)) - 101;
+                    
+                }, this);
+                 console.log("第一次跳跃，id是：" + this._idOfCurLocation);
+                break;
+             case 1:
+                this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
+                    this._birdWithoutShadow.x = this._bird.x;
+                    this._birdWithoutShadow.y = this._bird.y - 20 * (Math.sin((this._bird.x - 120) * Math.PI / 277)) - 101;
+                    
+                },this);
+                 console.log("第二次跳跃，id是：" + this._idOfCurLocation);
+                break;
+             case 2:
+             this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
+                    this._birdWithoutShadow.x = this._bird.x;
+                    this._birdWithoutShadow.y = this._bird.y - 20 * (Math.sin((627 - this._bird.y) * Math.PI / 277)) - 101;
+                    
+                }, this);
+                 console.log("第三次跳跃，id是：" + this._idOfCurLocation);
+                break;
+             default:
+                this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
+                    this._birdWithoutShadow.x = this._bird.x;
+                    this._birdWithoutShadow.y = this._bird.y - 20 * (Math.sin((397 - this._bird.x) * Math.PI / 277)) - 101;
+                    
+                },this);
+                 console.log("第四次跳跃，id是：" + this._idOfCurLocation);
+                break;
+         }
+
+         this._idOfCurLocation += 1;
+         console.log(this._idOfCurLocation);
     }
+    
     public gameOver():void{
         var gameOverView:GameOverView = new GameOverView(0,0);
         this.addChild(gameOverView);
     }
+
+    private getBirdPosition(bird:egret.Sprite):egret.Point{
+        var pos:egret.Point;
+        pos = new egret.Point(bird.x, bird.y);
+        
+        return pos;
+    }
+
+    // private getY(y:number):number{
+        
+    // }
 }

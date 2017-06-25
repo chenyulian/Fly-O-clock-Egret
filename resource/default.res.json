@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "egret_icon_png,description_json,Select_png,ADVENTURE_png,CHALLENGE_png,Clock_png,ClockCenter_png,ClockWithTie_png,CoinsContainer_png,GameStartBtn_png,GameTitle_png,JumpBtn_png,LeftArray_png,LOCKED_png,PlayerWithShadow_png,Pointer_png,RecordButton_png,Records_png,RightArray_png,JumpBtnClicked_png,GameOverView_png,Player_png,pinkBtn_png,pointerCenter_png,pointer_png,bird_png,coin_png,title_png,main_background_png,coin_column_1_png",
+			"keys": "egret_icon_png,description_json,Select_png,ADVENTURE_png,CHALLENGE_png,Clock_png,ClockCenter_png,ClockWithTie_png,CoinsContainer_png,GameStartBtn_png,GameTitle_png,JumpBtn_png,LeftArray_png,LOCKED_png,PlayerWithShadow_png,Pointer_png,RecordButton_png,Records_png,RightArray_png,JumpBtnClicked_png,GameOverView_png,Player_png,pinkBtn_png,pointerCenter_png,pointer_png,bird_png,coin_png,title_png,main_background_png,coin_column_1_png,shadow_png,BirdWithoutShadow_png",
 			"name": "preload"
 		}
 	],
@@ -155,6 +155,16 @@
 			"name": "coin_column_1_png",
 			"type": "image",
 			"url": "assets/coin_column_1.png"
+		},
+		{
+			"name": "shadow_png",
+			"type": "image",
+			"url": "assets/shadow.png"
+		},
+		{
+			"name": "BirdWithoutShadow_png",
+			"type": "image",
+			"url": "assets/BirdWithoutShadow.png"
 		}
 	]
 }
