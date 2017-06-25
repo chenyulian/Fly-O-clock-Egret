@@ -14,12 +14,16 @@ class GameSceneView extends egret.Sprite{
     private _idOfCurLocation:number;
     private _birdWithoutShadow:egret.Bitmap;
 
+    private _curScore:number;;
+
 
     constructor(displayContainerObject:egret.DisplayObjectContainer){
         super();
         GameSceneView._gameScene = this;
+        this._curScore = 0;
         this._gamePauseView = new GamePauseView(displayContainerObject);
         this.initView(displayContainerObject);
+        
     }
 
     public initView(displayContainerObject:egret.DisplayObjectContainer):void{
@@ -84,86 +88,83 @@ class GameSceneView extends egret.Sprite{
             this._pointer.y = this._PointerCenter.y + this._PointerCenterData.height / 2;
 
             this._pointer.rotation += 3;
+           
+        var birdPoint:egret.Point = new egret.Point(this._bird.x, this._bird.y);
+        if(this.pointerCoinsideWithBird(birdPoint, this._pointer.rotation)){
+            console.log("game over!")
+        }
+        //    if((this._bird.x == 120 && this._bird.y == 627) ||
+        //             (this._bird.x == 120 && this._bird.y == 350) ||
+        //             (this._bird.x == 397 && this._bird.y == 350) ||
+        //             (this._bird.x == 397 && this._bird.y == 627)
+        //          ){
+        //              if(this._pointer.rotation == 45 || 
+        //                 this._pointer.rotation == 135 || 
+        //                 this._pointer.rotation == -135 || 
+        //                 this._pointer.rotation == -45){
+        //                     console.log("game over");
+        //                 }
+        //          }
+
         }
         ,this);
     }
-        //控制影子和本体的距离来体现跳跃的效果
-    //     this._birdWithoutShadow.addEventListener(egret.Event.ENTER_FRAME, (evt:egret.Event)=>{
-           
-            
-    //         this._birdWithoutShadow.x = this._bird.x;
-    //         this._birdWithoutShadow.y = this._bird.y + 20 * (Math.sin((this._bird.y - 350) * Math.PI / 277)) - 101;
-    //         //distance = 
-           
-            
-    //     },
-    //     this);
-            
-    //     console.log("anchorOffsetX: "+ this._pointer.anchorOffsetX, + " anchorOffsetY:" + this._pointer.anchorOffsetY);
-         
-
-    // }
-
 
     public play():void{
         //this.removeChildren();
         
-        this._pointer.anchorOffsetX = 320;
-        this._pointer.anchorOffsetY = 568;
-        this._pointer.x = this._PointerCenter.x + (this._PointerCenterData.width - this._PointerData.width) / 2.0;
-        this._pointer.y = this._PointerCenter.y - this._PointerData.height;
-
-        this._pointer.rotation += 3;
     }
+
+    //点击Jump按钮后执行：
     public jump():void{
-        //console.log("jump btn clicked");
-        
         //保证当前位置的id不超过3（数组下标最大值）
          if(this._idOfCurLocation >= 3){
              this._idOfCurLocation -= 4;
          }
+         this._curScore ++;
          //下一个跳跃的点为当前点的下一个
-          
-         egret.Tween.get(this._bird).to({x: this._vcLocation[this._idOfCurLocation + 1].x, y: this._vcLocation[this._idOfCurLocation + 1].y}, 1500, egret.Ease.sineIn);
-         
-
+         egret.Tween.get(this._bird).to({x: this._vcLocation[this._idOfCurLocation + 1].x, y: this._vcLocation[this._idOfCurLocation + 1].y}, 200, egret.Ease.sineIn);
+         console.log("current score:"+this._curScore);
          //改变影子和本体的距离创造出跳跃感
+        //  this.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
+        //  }, this._bird);
+        this._idOfCurLocation += 1;
          switch(this._idOfCurLocation){
-             case 0:
-                this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
-                    this._birdWithoutShadow.x = this._bird.x;
-                    this._birdWithoutShadow.y = this._bird.y - 20 * (Math.sin((this._bird.y - 350) * Math.PI / 277)) - 101;
-                    
-                }, this);
-                 console.log("第一次跳跃，id是：" + this._idOfCurLocation);
-                break;
              case 1:
                 this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
                     this._birdWithoutShadow.x = this._bird.x;
-                    this._birdWithoutShadow.y = this._bird.y - 20 * (Math.sin((this._bird.x - 120) * Math.PI / 277)) - 101;
-                    
-                },this);
-                 console.log("第二次跳跃，id是：" + this._idOfCurLocation);
+                    this._birdWithoutShadow.y = this._bird.y - 30 * (Math.sin((this._bird.y - 350) * Math.PI / 277)) - 101;     
+                }, this._bird);
+                console.log("从上到下");
                 break;
              case 2:
-             this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
+                this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
                     this._birdWithoutShadow.x = this._bird.x;
-                    this._birdWithoutShadow.y = this._bird.y - 20 * (Math.sin((627 - this._bird.y) * Math.PI / 277)) - 101;
+                    this._birdWithoutShadow.y = this._bird.y - 30 * (Math.sin((this._bird.x - 120) * Math.PI / 277)) - 101;
                     
-                }, this);
-                 console.log("第三次跳跃，id是：" + this._idOfCurLocation);
+                },this._bird);
+                
+                console.log("从左往右");
+                break;
+             case 3:
+                this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
+                    this._birdWithoutShadow.x = this._bird.x;
+                    this._birdWithoutShadow.y = this._bird.y - 30 * (Math.sin((this._bird.y - 350) * Math.PI / 277)) - 101;;
+                    //console.log(this._birdWithoutShadow.y);
+                }, this._bird);
+                console.log("从下到上");
                 break;
              default:
                 this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
                     this._birdWithoutShadow.x = this._bird.x;
-                    this._birdWithoutShadow.y = this._bird.y - 20 * (Math.sin((397 - this._bird.x) * Math.PI / 277)) - 101;
+                    this._birdWithoutShadow.y = this._bird.y - 30 * (Math.sin((397 - this._bird.x) * Math.PI / 277)) - 101;
                     
-                },this);
-                 console.log("第四次跳跃，id是：" + this._idOfCurLocation);
+                },this._bird);
+                console.log("从右往左");
                 break;
          }
 
-         this._idOfCurLocation += 1;
+         
          console.log(this._idOfCurLocation);
     }
     
@@ -179,6 +180,19 @@ class GameSceneView extends egret.Sprite{
         return pos;
     }
 
+    private pointerCoinsideWithBird(bird:egret.Point, rotation:number):boolean{
+        if(bird.x == 120 && bird.y == 350 && rotation == -45){
+            return true;
+        }else if(bird.x == 120 && bird.y == 627 && rotation == -135){
+            return true;
+        }else if(bird.x == 397 && bird.y == 627 && rotation == 135){
+            return true;
+        }else if(bird.x == 397 && bird.y == 350 && rotation == 45){
+            return true;
+        }else{
+            return false;
+        }
+    }
     // private getY(y:number):number{
         
     // }

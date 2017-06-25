@@ -47,7 +47,7 @@ class GameWelcomeView extends egret.Sprite{
 		this._gameStartBtn.y = 900;
 		this.addChild(this._gameStartBtn);
 		this._gameStartBtn.touchEnabled = true;
-		this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onStartBtnClickEvent, this);
+		this._gameStartBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onStartBtnClickEvent, this);
 		//添加player
 		this._player = new Player("PlayerWithShadow_png");
 		this._player.x = 220;
