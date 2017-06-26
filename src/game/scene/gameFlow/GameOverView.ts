@@ -6,9 +6,11 @@ class GameOverView extends egret.Sprite{
 	public addedCoins:number;
 	public constructor(curScore:number, bestScore:number) {
 		super();
-		this.graphics.beginFill(0xF08080);
-		this.graphics.drawRoundRect(100, 100, 400, 600, 50, 50);
-		this.graphics.endFill;
-		
+		this.initView();
+	}
+	private initView():void{
+		var bgImage:egret.Bitmap;
+		bgImage = ResourceUtils.createBitmapByName("finalscore_panel_png");
+		this.addChild(bgImage);
 	}
 }

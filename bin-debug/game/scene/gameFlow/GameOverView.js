@@ -10,11 +10,14 @@ var GameOverView = (function (_super) {
     __extends(GameOverView, _super);
     function GameOverView(curScore, bestScore) {
         var _this = _super.call(this) || this;
-        _this.graphics.beginFill(0xF08080);
-        _this.graphics.drawRoundRect(100, 100, 400, 600, 50, 50);
-        _this.graphics.endFill;
+        _this.initView();
         return _this;
     }
+    GameOverView.prototype.initView = function () {
+        var bgImage;
+        bgImage = ResourceUtils.createBitmapByName("finalscore_panel_png");
+        this.addChild(bgImage);
+    };
     return GameOverView;
 }(egret.Sprite));
 __reflect(GameOverView.prototype, "GameOverView");

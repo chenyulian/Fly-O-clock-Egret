@@ -12,33 +12,41 @@ var GameSceneView = (function (_super) {
     function GameSceneView(displayContainerObject) {
         var _this = _super.call(this) || this;
         GameSceneView._gameScene = _this;
+        //初始化游戏场景时的一些设置
         _this._curScore = 0;
+        //可跳跃的4个点的坐标
+        _this._vcLocation = [
+            new egret.Point(120, 350),
+            new egret.Point(120, 627),
+            new egret.Point(397, 627),
+            new egret.Point(397, 350),
+        ];
+        _this._idOfCurLocation = 0;
         _this._gamePauseView = new GamePauseView(displayContainerObject);
         _this.initView(displayContainerObject);
         return _this;
     }
-    ;
+    //初始化GameScene 游戏开始场景
     GameSceneView.prototype.initView = function (displayContainerObject) {
-        var _this = this;
-        //this.gameSceneContainer = new egret.Sprite();
-        //this.addChild(this.gameSceneContainer);
-        var shape = new egret.Shape();
-        shape.graphics.beginFill(0x00ff00);
-        shape.graphics.drawRect(0, 0, displayContainerObject.stage.stageWidth, displayContainerObject.stage.stageHeight);
-        shape.graphics.endFill();
-        this.addChild(shape);
-        var JumpBtn;
-        var JumpBtnData;
-        JumpBtn = ResourceUtils.createBitmapByName("JumpBtn_png");
-        JumpBtnData = new egret.BitmapData(JumpBtn);
-        JumpBtn.x = 320 - JumpBtnData.width / 2;
-        JumpBtn.y = 820;
-        JumpBtn.touchEnabled = true;
-        JumpBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.jump, this);
-        this._PointerCenter = ResourceUtils.createBitmapByName("pointerCenter_png");
+        //背景图片
+        var bgImage;
+        bgImage = ResourceUtils.createBitmapByName("bg_blue_png");
+        this.addChild(bgImage);
+        //添加表盘&表带
+        var watchband;
+        watchband = ResourceUtils.createBitmapByName("watchband_png");
+        watchband.x = 0;
+        watchband.y = 333;
+        this._clock_color = ResourceUtils.createBitmapByName("clock_green_png");
+        this._clock_color.x = 20;
+        this._clock_color.y = 213;
+        this.addChild(watchband);
+        this.addChild(this._clock_color);
+        //表盘中心和指针
+        this._PointerCenter = ResourceUtils.createBitmapByName("fixed_point_png");
         this._PointerCenterData = new egret.BitmapData(this._PointerCenter);
         this._PointerCenter.x = 320 - this._PointerCenterData.width / 2.0;
-        this._PointerCenter.y = 568 - this._PointerCenterData.height / 2.0;
+        this._PointerCenter.y = 475;
         this._pointer = ResourceUtils.createBitmapByName("pointer_png");
         this._PointerData = new egret.BitmapData(this._pointer);
         this._bird = ResourceUtils.createBitmapByName("shadow_png");
@@ -48,19 +56,45 @@ var GameSceneView = (function (_super) {
         this._birdWithoutShadow = ResourceUtils.createBitmapByName("BirdWithoutShadow_png");
         this._birdWithoutShadow.x = this._bird.x;
         this._birdWithoutShadow.y = this._bird.y - 101;
-        //可跳跃的4个点的坐标
-        this._vcLocation = [
-            new egret.Point(120, 350),
-            new egret.Point(120, 627),
-            new egret.Point(397, 627),
-            new egret.Point(397, 350),
-        ];
-        this._idOfCurLocation = 0;
+        this.addChild(this._pointer);
         this.addChild(this._PointerCenter);
-        this.addChildAt(this._pointer, 1);
         this.addChild(this._bird);
-        this.addChild(JumpBtn);
+        //Jump按钮，点击跳跃
+        //var JumpBtn:egret.Bitmap;
+        var JumpBtnData;
+        var JumpBtnShadow;
+        this._jumpBtn = ResourceUtils.createBitmapByName("jump_button_png");
+        JumpBtnData = new egret.BitmapData(this._jumpBtn);
+        this._jumpBtn.x = 320 - JumpBtnData.width / 2;
+        this._jumpBtn.y = 900;
+        this._jumpBtn.touchEnabled = true;
+        this._jumpBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.jump, this);
+        JumpBtnShadow = ResourceUtils.createBitmapByName("jump_button_shadow_png");
+        JumpBtnShadow.x = this._jumpBtn.x;
+        JumpBtnShadow.y = 913;
+        this.addChild(JumpBtnShadow);
+        this.addChild(this._jumpBtn);
         this.addChild(this._birdWithoutShadow);
+        //暂停按钮
+        var suspendBtnShadow;
+        suspendBtnShadow = ResourceUtils.createBitmapByName("suspend_button_shadow_png");
+        suspendBtnShadow.x = 34;
+        suspendBtnShadow.y = 33;
+        this._suspendBtn = ResourceUtils.createBitmapByName("suspend_button_png");
+        this._suspendBtn.x = 34;
+        this._suspendBtn.y = 25;
+        this.addChild(suspendBtnShadow);
+        this.addChild(this._suspendBtn);
+        //金币栏
+        this.createContentWithShadow(this._coinColumn, 400, 25, "coin_column_png", "coin_column_shadow_png", 10);
+        //this.addChild(this._coinColumn);
+        //console.log(this._coinColumn.x);
+        //分数栏 
+        this.play();
+    };
+    GameSceneView.prototype.play = function () {
+        var _this = this;
+        //this.removeChildren();
         this._pointer.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
             //this._pointer.rotation += 10;
             _this._pointer.anchorOffsetX = _this._PointerData.width / 2;
@@ -70,28 +104,18 @@ var GameSceneView = (function (_super) {
             _this._pointer.rotation += 3;
             var birdPoint = new egret.Point(_this._bird.x, _this._bird.y);
             if (_this.pointerCoinsideWithBird(birdPoint, _this._pointer.rotation)) {
-                console.log("game over!");
+                _this.gameOver();
+                _this._jumpBtn.touchEnabled = false;
             }
-            //    if((this._bird.x == 120 && this._bird.y == 627) ||
-            //             (this._bird.x == 120 && this._bird.y == 350) ||
-            //             (this._bird.x == 397 && this._bird.y == 350) ||
-            //             (this._bird.x == 397 && this._bird.y == 627)
-            //          ){
-            //              if(this._pointer.rotation == 45 || 
-            //                 this._pointer.rotation == 135 || 
-            //                 this._pointer.rotation == -135 || 
-            //                 this._pointer.rotation == -45){
-            //                     console.log("game over");
-            //                 }
-            //          }
         }, this);
-    };
-    GameSceneView.prototype.play = function () {
-        //this.removeChildren();
     };
     //点击Jump按钮后执行：
     GameSceneView.prototype.jump = function () {
         var _this = this;
+        //按钮按下的动画效果
+        var tw = egret.Tween.get(this._jumpBtn, { loop: false });
+        tw.to({ x: this._jumpBtn.x, y: this._jumpBtn.y + 13 }, 50).wait(100)
+            .to({ x: this._jumpBtn.x, y: this._jumpBtn.y }, 50);
         //保证当前位置的id不超过3（数组下标最大值）
         if (this._idOfCurLocation >= 3) {
             this._idOfCurLocation -= 4;
@@ -101,8 +125,6 @@ var GameSceneView = (function (_super) {
         egret.Tween.get(this._bird).to({ x: this._vcLocation[this._idOfCurLocation + 1].x, y: this._vcLocation[this._idOfCurLocation + 1].y }, 200, egret.Ease.sineIn);
         console.log("current score:" + this._curScore);
         //改变影子和本体的距离创造出跳跃感
-        //  this.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
-        //  }, this._bird);
         this._idOfCurLocation += 1;
         switch (this._idOfCurLocation) {
             case 1:
@@ -136,17 +158,27 @@ var GameSceneView = (function (_super) {
                 console.log("从右往左");
                 break;
         }
-        console.log(this._idOfCurLocation);
+        // console.log(this._idOfCurLocation);
     };
+    //游戏结束
     GameSceneView.prototype.gameOver = function () {
-        var gameOverView = new GameOverView(0, 0);
-        this.addChild(gameOverView);
+        // var gameOverView:GameOverView = new GameOverView(0,0);
+        // this.addChild(gameOverView);
+        console.log("game over!");
+        // //背景变暗
+        // this.graphics.beginFill(0x000000, 0.5);
+        // this.graphics.drawRect(0, 0, 640, 1136);
+        // this.graphics.endFill;
+        //添加game over页面
+        this._gameOverView = new GameOverView(0, 0);
+        this.addChild(this._gameOverView);
     };
-    GameSceneView.prototype.getBirdPosition = function (bird) {
-        var pos;
-        pos = new egret.Point(bird.x, bird.y);
-        return pos;
-    };
+    // private getBirdPosition(bird:egret.Sprite):egret.Point{
+    //     var pos:egret.Point;
+    //     pos = new egret.Point(bird.x, bird.y);
+    //     return pos;
+    // }
+    //判断小鸟落地时是否与指针位置重合
     GameSceneView.prototype.pointerCoinsideWithBird = function (bird, rotation) {
         if (bird.x == 120 && bird.y == 350 && rotation == -45) {
             return true;
@@ -163,6 +195,18 @@ var GameSceneView = (function (_super) {
         else {
             return false;
         }
+    };
+    GameSceneView.prototype.createContentWithShadow = function (content, contentX, contentY, contentName, shadowName, translation) {
+        content = ResourceUtils.createBitmapByName(contentName);
+        content.x = contentX;
+        content.y = contentY;
+        //添加阴影
+        var shadow;
+        shadow = ResourceUtils.createBitmapByName(shadowName);
+        shadow.x = contentX;
+        shadow.y = contentY + translation;
+        this.addChild(shadow);
+        this.addChild(content);
     };
     return GameSceneView;
 }(egret.Sprite));

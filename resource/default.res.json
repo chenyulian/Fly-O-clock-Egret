@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "egret_icon_png,description_json,ADVENTURE_png,CHALLENGE_png,Clock_png,ClockCenter_png,ClockWithTie_png,CoinsContainer_png,GameStartBtn_png,GameTitle_png,JumpBtn_png,LeftArray_png,LOCKED_png,PlayerWithShadow_png,Pointer_png,RecordButton_png,Records_png,RightArray_png,JumpBtnClicked_png,GameOverView_png,Player_png,pinkBtn_png,pointerCenter_png,pointer_png,bird_png,coin_png,title_png,main_background_png,shadow_png,BirdWithoutShadow_png,challenge_button_bg_png,challenge_button_png,selected_png,select_png,left_arrow_gray_png,left_arrow_png,right_arrow_gray_png,right_arrow_png,adventure_button_bg_png,adventure_button_png,Unlock_png,unlock_png,coin_column_bg_png,coin_column_png,role_buying_panel_closing_png,role_buying_panel_png,unlock_with_challenging_shadow_png,unlock_with_challenging_png,unlock_with_coins_gray_png,unlock_with_coins_shadow_png,unlock_with_coins_png,OR_png,bg_blue_png,bg_green_png,bg_orange_png,bg_pink_png,bg_purple_png,clock_green_png,clock_purple_png,clock_yellow_png,coin2_png,coin_column2_png,coin_column_shadow_png,fixed_point_png,home_button_png,home_button_shadow_png,jump_button_png,jump_button_shadow_png,score_column_png,watchband_png,finalscore_panel_png,home_button_2_png,home_button_2_shadow_png,reply_button_png,reply_button_shadow_png",
+			"keys": "egret_icon_png,description_json,ADVENTURE_png,CHALLENGE_png,Clock_png,ClockCenter_png,ClockWithTie_png,CoinsContainer_png,GameStartBtn_png,GameTitle_png,JumpBtn_png,LeftArray_png,LOCKED_png,PlayerWithShadow_png,Pointer_png,RecordButton_png,Records_png,RightArray_png,JumpBtnClicked_png,GameOverView_png,Player_png,pinkBtn_png,pointerCenter_png,pointer_png,bird_png,coin_png,title_png,main_background_png,shadow_png,BirdWithoutShadow_png,challenge_button_bg_png,challenge_button_png,selected_png,select_png,left_arrow_gray_png,left_arrow_png,right_arrow_gray_png,right_arrow_png,adventure_button_bg_png,adventure_button_png,Unlock_png,unlock_png,coin_column_bg_png,coin_column_png,role_buying_panel_closing_png,role_buying_panel_png,unlock_with_challenging_shadow_png,unlock_with_challenging_png,unlock_with_coins_gray_png,unlock_with_coins_shadow_png,unlock_with_coins_png,OR_png,bg_blue_png,bg_green_png,bg_orange_png,bg_pink_png,bg_purple_png,clock_green_png,clock_purple_png,clock_yellow_png,coin2_png,coin_column2_png,coin_column_shadow_png,fixed_point_png,home_button_png,home_button_shadow_png,jump_button_png,jump_button_shadow_png,score_column_png,watchband_png,finalscore_panel_png,home_button_2_png,home_button_2_shadow_png,reply_button_png,reply_button_shadow_png,suspend_button_png,suspend_button_shadow_png,1_png,2_png,3_png,titlewithshadow_png",
 			"name": "preload"
 		}
 	],
@@ -380,6 +380,36 @@
 			"name": "reply_button_shadow_png",
 			"type": "image",
 			"url": "assets/score_count_panel/reply_button_shadow.png"
+		},
+		{
+			"name": "suspend_button_png",
+			"type": "image",
+			"url": "assets/game_scene/suspend_button.png"
+		},
+		{
+			"name": "suspend_button_shadow_png",
+			"type": "image",
+			"url": "assets/game_scene/suspend_button_shadow.png"
+		},
+		{
+			"name": "1_png",
+			"type": "image",
+			"url": "assets/game_scene/1.png"
+		},
+		{
+			"name": "2_png",
+			"type": "image",
+			"url": "assets/game_scene/2.png"
+		},
+		{
+			"name": "3_png",
+			"type": "image",
+			"url": "assets/game_scene/3.png"
+		},
+		{
+			"name": "titlewithshadow_png",
+			"type": "image",
+			"url": "assets/titlewithshadow.png"
 		}
 	]
 }

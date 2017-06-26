@@ -19,6 +19,7 @@ var game_file_list = [
 	"bin-debug/game/scene/gameFlow/GameSceneView.js",
 	"bin-debug/game/scene/gameFlow/GameWelcomeView.js",
 	"bin-debug/game/scene/gameFlow/ShopView.js",
+	"bin-debug/game/scene/gameObj/FixedModule.js",
 	"bin-debug/game/scene/gameObj/GameBackgroundView.js",
 	"bin-debug/game/scene/gameFlow/GameInfoView.js",
 	"bin-debug/game/scene/gameObj/JumpButton.js",
