@@ -40,6 +40,7 @@ class GameWelcomeView extends egret.Sprite{
 	public constructor(displayObjectContainer:egret.DisplayObjectContainer) {
 		super();
 		this._gameSceneView = new GameSceneView(displayObjectContainer);
+		this._gameSceneView._gameWelcomeView = this;
 		//this.fillBackGround(displayObjectContainer);
 		this.initView();
 	}

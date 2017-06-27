@@ -14,6 +14,7 @@ var GameSceneView = (function (_super) {
         GameSceneView._gameScene = _this;
         //初始化游戏场景时的一些设置
         _this._curScore = 0;
+        _this._bestScore = 0;
         //可跳跃的4个点的坐标
         _this._vcLocation = [
             new egret.Point(120, 350),
@@ -24,12 +25,13 @@ var GameSceneView = (function (_super) {
         _this._idOfCurLocation = 0;
         _this._gamePauseView = new GamePauseView(displayContainerObject);
         _this.initView(displayContainerObject);
+        _this.isPaused = false;
         return _this;
     }
     //初始化GameScene 游戏开始场景
     GameSceneView.prototype.initView = function (displayContainerObject) {
         var _this = this;
-        this._gameOverView = new GameOverView(0, 0);
+        this._gameOverView = new GameOverView(this._curScore, 0);
         //背景图片
         var bgImage;
         bgImage = ResourceUtils.createBitmapByName("bg_blue_png");
@@ -87,6 +89,7 @@ var GameSceneView = (function (_super) {
         this._suspendBtn.y = 25;
         this.addChild(suspendBtnShadow);
         this.addChild(this._suspendBtn);
+        this._suspendBtn.touchEnabled = true;
         //金币栏
         this.createContentWithShadow(this._coinColumn, 400, 25, "coin_column_png", "coin_column_shadow_png", 10);
         //this.addChild(this._coinColumn);
@@ -96,27 +99,34 @@ var GameSceneView = (function (_super) {
         this._scoreColumn.x = 125;
         this._scoreColumn.y = 26;
         this.addChild(this._scoreColumn);
+        //给游戏结束界面的“继续玩”按钮添加点击事件
         this._gameOverView.reply_button.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
             _this.removeChild(_this._gameOverView);
+            //this.removeChild(this._gameOverView._finalScoreText);
+            _this._gameOverView.removeChild(_this._gameOverView._finalScoreText);
             console.log("remove game overview");
             _this._jumpBtn.touchEnabled = true;
-            //this.play();
         }, this);
-        this._gameOverView.addEventListener(egret.Event.ADDED_TO_STAGE, function (evt) {
-            console.log("game over view added");
-            _this._pointer.removeEventListener(egret.Event.ENTER_FRAME, function (evt) {
-                console.log("remove pointer listener");
-            }, _this);
+        //game over view添加到stage时触发行为
+        //this._gameOverView.removeEventListener()
+        this._gameOverView.home_button.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
+            _this.removeChildren();
+            var gameWelcomeView = new GameWelcomeView(displayContainerObject);
+            _this.parent.addChild(gameWelcomeView);
+        }, this);
+        this._suspendBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
+            if (_this.isPaused) {
+                _this.isPaused = false;
+                console.log("开始");
+            }
+            else {
+                _this.isPaused = true;
+                console.log("暂停");
+            }
         }, this);
         this.play();
     };
     GameSceneView.prototype.play = function () {
-        //this.removeChildren();
-        // //确保开始时小鸟在指定位置
-        // this._bird.x = 120;
-        // this._bird.y = 400;
-        // this._birdWithoutShadow.x = this._bird.x;
-        // this._birdWithoutShadow.y = this._bird.y - 101;
         var _this = this;
         this._pointer.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
             //this._pointer.rotation += 10;
@@ -124,9 +134,19 @@ var GameSceneView = (function (_super) {
             _this._pointer.anchorOffsetY = _this._PointerData.height - _this._PointerData.height / 20;
             _this._pointer.x = _this._PointerCenter.x + _this._PointerCenterData.width / 2;
             _this._pointer.y = _this._PointerCenter.y + _this._PointerCenterData.height / 2;
-            _this._pointer.rotation += 3;
+            if (_this.isPaused) {
+                _this._pointer.rotation += 0;
+                _this._jumpBtn.touchEnabled = false;
+            }
+            else {
+                _this._pointer.rotation += 3;
+                _this._jumpBtn.touchEnabled = true;
+            }
+            //this._pointer.rotation += 3;
+            //判断此时小鸟和指针位置重合
             var birdPoint = new egret.Point(_this._bird.x, _this._bird.y);
             if (_this.pointerCoinsideWithBird(birdPoint, _this._pointer.rotation)) {
+                //this._pointer.rotation += 0;
                 _this.gameOver();
                 _this._jumpBtn.touchEnabled = false;
             }
@@ -141,13 +161,38 @@ var GameSceneView = (function (_super) {
         this._curScore++;
         this.jump();
     };
+    GameSceneView.prototype.onSuspendBtnClicked = function () {
+    };
     //游戏结束
     GameSceneView.prototype.gameOver = function () {
+        var _this = this;
         // var gameOverView:GameOverView = new GameOverView(0,0);
         // this.addChild(gameOverView);
+        //this.isPaused = true;
         console.log("game over!");
+        console.log("rotation = " + this._pointer.rotation);
+        this._gameOverView.finalScore = this._curScore;
+        this._gameOverView._finalScoreText.text = this._gameOverView.finalScore.toString();
+        this._curScore = 0;
+        console.log("FINAL SCORE: " + this._gameOverView.finalScore);
+        if (this._gameOverView.finalScore > this._bestScore) {
+            this._bestScore = this._gameOverView.finalScore;
+        }
+        console.log("BEST SCORE: " + this._bestScore);
         //添加game over页面
         this.addChild(this._gameOverView);
+        this._gameOverView.addChild(this._gameOverView._finalScoreText);
+        this._gameOverView.addEventListener(egret.Event.REMOVED_FROM_STAGE, function (evt) {
+            //this.isPaused = false;
+            console.log("gameover view leave stage");
+            _this._curScore = 0;
+        }, this);
+        this._gameOverView.addEventListener(egret.Event.ADDED_TO_STAGE, function (evt) {
+            //this.isPaused = true;
+            console.log("GameOverView added to stage");
+            //this._pointer.rotation += 0;
+            //console.log("Then rotation = " + this._pointer.rotation);
+        }, this);
     };
     //判断小鸟落地时是否与指针位置重合
     GameSceneView.prototype.pointerCoinsideWithBird = function (bird, rotation) {

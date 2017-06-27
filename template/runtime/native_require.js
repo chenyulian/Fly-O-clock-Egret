@@ -30,6 +30,7 @@ var game_file_list = [
 	"bin-debug/game/utils/ResourceUtils.js",
 	"bin-debug/game/utils/ShareUtils.js",
 	"bin-debug/game/utils/SoundUtils.js",
+	"bin-debug/game/utils/StringUtils.js",
 	"bin-debug/LoadingUI.js",
 	"bin-debug/Main.js",
 	//----auto game_file_list end----

@@ -11,6 +11,7 @@ var GameWelcomeView = (function (_super) {
     function GameWelcomeView(displayObjectContainer) {
         var _this = _super.call(this) || this;
         _this._gameSceneView = new GameSceneView(displayObjectContainer);
+        _this._gameSceneView._gameWelcomeView = _this;
         //this.fillBackGround(displayObjectContainer);
         _this.initView();
         return _this;

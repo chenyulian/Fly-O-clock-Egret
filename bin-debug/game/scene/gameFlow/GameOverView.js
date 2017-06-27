@@ -10,8 +10,10 @@ var GameOverView = (function (_super) {
     __extends(GameOverView, _super);
     function GameOverView(curScore, bestScore) {
         var _this = _super.call(this) || this;
+        _this.finalScore = 0;
         _this.initView();
         return _this;
+        //this._scoreText = new egret.TextField();
         //this._gameWelcomeView = new GameWelcomeView(displayObjectContainer);
         //this._gameSceneView = new GameSceneView(displayObjectContainer);
     }
@@ -40,6 +42,13 @@ var GameOverView = (function (_super) {
         this.addChild(this.home_button);
         this.home_button.touchEnabled = true;
         this.home_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.homeBtnOnClicked, this);
+        // var score:string = 
+        // var num:number = 10;
+        this._finalScoreText = new egret.TextField();
+        this._finalScoreText.x = 300;
+        this._finalScoreText.y = 350;
+        //this._finalScoreText.text = this.finalScore.toString();
+        console.log("final score: " + this.finalScore);
     };
     GameOverView.prototype.replyBtnOnClicked = function () {
         this.removeChildren();
@@ -49,6 +58,9 @@ var GameOverView = (function (_super) {
     GameOverView.prototype.homeBtnOnClicked = function () {
         this.removeChildren();
         //this.addChild(this._gameWelcomeView);
+    };
+    GameOverView.prototype.setCurScore = function (score) {
+        this.finalScore = score;
     };
     return GameOverView;
 }(egret.Sprite));

@@ -1,19 +1,23 @@
 class GameOverView extends egret.Sprite{
 	private gameOverImage:egret.Sprite;
 
-	public curScore:number;
+	public finalScore:number;
 	public bestScore:number;
 	public addedCoins:number;
 	public reply_button:egret.Bitmap;
-	private home_button:egret.Bitmap;
+	public home_button:egret.Bitmap;
 	private _gameWelcomeView:GameWelcomeView;
 	private _gameSceneView:GameSceneView;
+	public _finalScoreText:egret.TextField;
 
 	public constructor(curScore:number, bestScore:number) {
 		super();
+		this.finalScore = 0;
 		this.initView();
+		//this._scoreText = new egret.TextField();
 		//this._gameWelcomeView = new GameWelcomeView(displayObjectContainer);
 		//this._gameSceneView = new GameSceneView(displayObjectContainer);
+		
 	}
 	private initView():void{
 		var bgImage:egret.Bitmap;
@@ -43,6 +47,15 @@ class GameOverView extends egret.Sprite{
 		this.home_button.touchEnabled = true;
 		this.home_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.homeBtnOnClicked, this);
 
+		// var score:string = 
+		// var num:number = 10;
+		this._finalScoreText = new egret.TextField();
+		this._finalScoreText.x = 300;
+		this._finalScoreText.y = 350;
+		//this._finalScoreText.text = this.finalScore.toString();
+
+		
+		console.log("final score: " + this.finalScore);
 	}
 
 	private replyBtnOnClicked():void{
@@ -54,6 +67,9 @@ class GameOverView extends egret.Sprite{
 	private homeBtnOnClicked():void{
 		this.removeChildren();
 		//this.addChild(this._gameWelcomeView);
-		
+	}
+
+	public setCurScore(score:number):void{
+		this.finalScore = score;
 	}
 }
