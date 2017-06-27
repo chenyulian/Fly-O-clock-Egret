@@ -28,6 +28,8 @@ var GameSceneView = (function (_super) {
     }
     //初始化GameScene 游戏开始场景
     GameSceneView.prototype.initView = function (displayContainerObject) {
+        var _this = this;
+        this._gameOverView = new GameOverView(0, 0);
         //背景图片
         var bgImage;
         bgImage = ResourceUtils.createBitmapByName("bg_blue_png");
@@ -68,7 +70,7 @@ var GameSceneView = (function (_super) {
         this._jumpBtn.x = 320 - JumpBtnData.width / 2;
         this._jumpBtn.y = 900;
         this._jumpBtn.touchEnabled = true;
-        this._jumpBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.jump, this);
+        this._jumpBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onJumpBtnClicked, this);
         JumpBtnShadow = ResourceUtils.createBitmapByName("jump_button_shadow_png");
         JumpBtnShadow.x = this._jumpBtn.x;
         JumpBtnShadow.y = 913;
@@ -90,11 +92,32 @@ var GameSceneView = (function (_super) {
         //this.addChild(this._coinColumn);
         //console.log(this._coinColumn.x);
         //分数栏 
+        this._scoreColumn = ResourceUtils.createBitmapByName("score_column_png");
+        this._scoreColumn.x = 125;
+        this._scoreColumn.y = 26;
+        this.addChild(this._scoreColumn);
+        this._gameOverView.reply_button.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
+            _this.removeChild(_this._gameOverView);
+            console.log("remove game overview");
+            _this._jumpBtn.touchEnabled = true;
+            //this.play();
+        }, this);
+        this._gameOverView.addEventListener(egret.Event.ADDED_TO_STAGE, function (evt) {
+            console.log("game over view added");
+            _this._pointer.removeEventListener(egret.Event.ENTER_FRAME, function (evt) {
+                console.log("remove pointer listener");
+            }, _this);
+        }, this);
         this.play();
     };
     GameSceneView.prototype.play = function () {
-        var _this = this;
         //this.removeChildren();
+        // //确保开始时小鸟在指定位置
+        // this._bird.x = 120;
+        // this._bird.y = 400;
+        // this._birdWithoutShadow.x = this._bird.x;
+        // this._birdWithoutShadow.y = this._bird.y - 101;
+        var _this = this;
         this._pointer.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
             //this._pointer.rotation += 10;
             _this._pointer.anchorOffsetX = _this._PointerData.width / 2;
@@ -110,74 +133,22 @@ var GameSceneView = (function (_super) {
         }, this);
     };
     //点击Jump按钮后执行：
-    GameSceneView.prototype.jump = function () {
-        var _this = this;
+    GameSceneView.prototype.onJumpBtnClicked = function () {
         //按钮按下的动画效果
         var tw = egret.Tween.get(this._jumpBtn, { loop: false });
         tw.to({ x: this._jumpBtn.x, y: this._jumpBtn.y + 13 }, 50).wait(100)
             .to({ x: this._jumpBtn.x, y: this._jumpBtn.y }, 50);
-        //保证当前位置的id不超过3（数组下标最大值）
-        if (this._idOfCurLocation >= 3) {
-            this._idOfCurLocation -= 4;
-        }
         this._curScore++;
-        //下一个跳跃的点为当前点的下一个
-        egret.Tween.get(this._bird).to({ x: this._vcLocation[this._idOfCurLocation + 1].x, y: this._vcLocation[this._idOfCurLocation + 1].y }, 200, egret.Ease.sineIn);
-        console.log("current score:" + this._curScore);
-        //改变影子和本体的距离创造出跳跃感
-        this._idOfCurLocation += 1;
-        switch (this._idOfCurLocation) {
-            case 1:
-                this._bird.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
-                    _this._birdWithoutShadow.x = _this._bird.x;
-                    _this._birdWithoutShadow.y = _this._bird.y - 30 * (Math.sin((_this._bird.y - 350) * Math.PI / 277)) - 101;
-                }, this._bird);
-                console.log("从上到下");
-                break;
-            case 2:
-                this._bird.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
-                    _this._birdWithoutShadow.x = _this._bird.x;
-                    _this._birdWithoutShadow.y = _this._bird.y - 30 * (Math.sin((_this._bird.x - 120) * Math.PI / 277)) - 101;
-                }, this._bird);
-                console.log("从左往右");
-                break;
-            case 3:
-                this._bird.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
-                    _this._birdWithoutShadow.x = _this._bird.x;
-                    _this._birdWithoutShadow.y = _this._bird.y - 30 * (Math.sin((_this._bird.y - 350) * Math.PI / 277)) - 101;
-                    ;
-                    //console.log(this._birdWithoutShadow.y);
-                }, this._bird);
-                console.log("从下到上");
-                break;
-            default:
-                this._bird.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
-                    _this._birdWithoutShadow.x = _this._bird.x;
-                    _this._birdWithoutShadow.y = _this._bird.y - 30 * (Math.sin((397 - _this._bird.x) * Math.PI / 277)) - 101;
-                }, this._bird);
-                console.log("从右往左");
-                break;
-        }
-        // console.log(this._idOfCurLocation);
+        this.jump();
     };
     //游戏结束
     GameSceneView.prototype.gameOver = function () {
         // var gameOverView:GameOverView = new GameOverView(0,0);
         // this.addChild(gameOverView);
         console.log("game over!");
-        // //背景变暗
-        // this.graphics.beginFill(0x000000, 0.5);
-        // this.graphics.drawRect(0, 0, 640, 1136);
-        // this.graphics.endFill;
         //添加game over页面
-        this._gameOverView = new GameOverView(0, 0);
         this.addChild(this._gameOverView);
     };
-    // private getBirdPosition(bird:egret.Sprite):egret.Point{
-    //     var pos:egret.Point;
-    //     pos = new egret.Point(bird.x, bird.y);
-    //     return pos;
-    // }
     //判断小鸟落地时是否与指针位置重合
     GameSceneView.prototype.pointerCoinsideWithBird = function (bird, rotation) {
         if (bird.x == 120 && bird.y == 350 && rotation == -45) {
@@ -207,6 +178,49 @@ var GameSceneView = (function (_super) {
         shadow.y = contentY + translation;
         this.addChild(shadow);
         this.addChild(content);
+    };
+    GameSceneView.prototype.jump = function () {
+        var _this = this;
+        //保证当前位置的id不超过3（数组下标最大值）
+        if (this._idOfCurLocation >= 3) {
+            this._idOfCurLocation -= 4;
+        }
+        //下一个跳跃的点为当前点的下一个
+        egret.Tween.get(this._bird).to({ x: this._vcLocation[this._idOfCurLocation + 1].x, y: this._vcLocation[this._idOfCurLocation + 1].y }, 200, egret.Ease.sineIn);
+        //console.log("current score:"+this._curScore);
+        //改变影子和本体的距离创造出跳跃感
+        this._idOfCurLocation += 1;
+        switch (this._idOfCurLocation) {
+            case 1:
+                this._bird.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
+                    _this._birdWithoutShadow.x = _this._bird.x;
+                    _this._birdWithoutShadow.y = _this._bird.y - 30 * (Math.sin((_this._bird.y - 350) * Math.PI / 277)) - 101;
+                }, this._bird);
+                break;
+            case 2:
+                this._bird.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
+                    _this._birdWithoutShadow.x = _this._bird.x;
+                    _this._birdWithoutShadow.y = _this._bird.y - 30 * (Math.sin((_this._bird.x - 120) * Math.PI / 277)) - 101;
+                }, this._bird);
+                console.log("从左往右");
+                break;
+            case 3:
+                this._bird.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
+                    _this._birdWithoutShadow.x = _this._bird.x;
+                    _this._birdWithoutShadow.y = _this._bird.y - 30 * (Math.sin((_this._bird.y - 350) * Math.PI / 277)) - 101;
+                    ;
+                    //console.log(this._birdWithoutShadow.y);
+                }, this._bird);
+                console.log("从下到上");
+                break;
+            default:
+                this._bird.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
+                    _this._birdWithoutShadow.x = _this._bird.x;
+                    _this._birdWithoutShadow.y = _this._bird.y - 30 * (Math.sin((397 - _this._bird.x) * Math.PI / 277)) - 101;
+                }, this._bird);
+                console.log("从右往左");
+                break;
+        }
     };
     return GameSceneView;
 }(egret.Sprite));

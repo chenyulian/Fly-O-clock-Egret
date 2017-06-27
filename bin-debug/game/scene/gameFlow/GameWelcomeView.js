@@ -35,7 +35,7 @@ var GameWelcomeView = (function (_super) {
         this._coin.y = 35;
         this.addChild(this._coin);
         //游戏title
-        this._gameTitle = ResourceUtils.createBitmapByName("title_png");
+        this._gameTitle = ResourceUtils.createBitmapByName("titlewithshadow_png");
         this._gameTitle.x = 80;
         this._gameTitle.y = 120;
         this.addChild(this._gameTitle);
