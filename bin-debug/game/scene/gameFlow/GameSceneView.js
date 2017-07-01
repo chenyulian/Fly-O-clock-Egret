@@ -14,6 +14,14 @@ var GameSceneView = (function (_super) {
         GameSceneView._gameScene = _this;
         //初始化游戏场景时的一些设置
         _this._curScore = 0;
+        _this._curScoreText = new egret.TextField();
+        _this._curScoreText.text = _this._curScore.toString();
+        _this._curScoreText.x = 280;
+        _this._curScoreText.y = 40;
+        _this._curScoreText.textColor = 0x000000;
+        _this._curScoreText.size = 50;
+        _this._curScoreText.fontFamily = "Arial";
+        _this._curScoreText.bold = true;
         _this._bestScore = 0;
         //可跳跃的4个点的坐标
         _this._vcLocation = [
@@ -26,7 +34,7 @@ var GameSceneView = (function (_super) {
         _this._gamePauseView = new GamePauseView(displayContainerObject);
         _this.initView(displayContainerObject);
         //this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
-        _this.isPaused = false;
+        _this.isPaused = true;
         return _this;
     }
     // private onAddToStage(event: egret.Event){
@@ -107,18 +115,32 @@ var GameSceneView = (function (_super) {
         this._suspendBtn.touchEnabled = true;
         //金币栏
         this.createContentWithShadow(this._coinColumn, 400, 25, "coin_column_png", "coin_column_shadow_png", 10);
-        //this.addChild(this._coinColumn);
-        //console.log(this._coinColumn.x);
         //分数栏 
         this._scoreColumn = ResourceUtils.createBitmapByName("score_column_png");
         this._scoreColumn.x = 125;
-        this._scoreColumn;
+        this._scoreColumn.y = 26;
+        this.addChild(this._scoreColumn);
+        this.addChild(this._curScoreText);
+        this._picOne = ResourceUtils.createBitmapByName("picone_png");
+        this._picOne.x = 220;
+        this._picOne.y = 400;
+        this._picTwo = ResourceUtils.createBitmapByName("two_png");
+        this._picThree = ResourceUtils.createBitmapByName("three_png");
+        this._picTwo.x = this._picOne.x;
+        this._picTwo.y = this._picOne.y;
+        this._picThree.x = this._picOne.x;
+        this._picThree.y = this._picOne.y;
+        //this.addChild(this._picOne);
         //给游戏结束界面的“继续玩”按钮添加点击事件
         this._gameOverView.reply_button.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
             _this.removeChild(_this._gameOverView);
-            if (_this.isPaused) {
-                _this.isPaused = false;
-            }
+            // if(this.isPaused){
+            //     this.isPaused = false;
+            // }
+            _this.prepareAnimation();
+            egret.setTimeout(function () {
+                this.isPaused = false;
+            }, _this, 2000);
             //this.removeChild(this._gameOverView._finalScoreText);
             _this._gameOverView.removeChild(_this._gameOverView._finalScoreText);
             console.log("remove game overview");
@@ -139,6 +161,13 @@ var GameSceneView = (function (_super) {
                 _this.isPaused = true;
                 console.log("暂停");
             }
+        }, this);
+        this.addEventListener(egret.Event.ADDED_TO_STAGE, function (evt) {
+            console.log("on add to stage");
+            _this.prepareAnimation();
+            egret.setTimeout(function () {
+                this.isPaused = false;
+            }, _this, 2000);
         }, this);
         this.play();
     };
@@ -180,6 +209,7 @@ var GameSceneView = (function (_super) {
         tw.to({ x: this._jumpBtn.x, y: this._jumpBtn.y + 13 }, 50).wait(100)
             .to({ x: this._jumpBtn.x, y: this._jumpBtn.y }, 50);
         this._curScore++;
+        this._curScoreText.text = this._curScore.toString();
         this.jump();
     };
     GameSceneView.prototype.onSuspendBtnClicked = function () {
@@ -209,6 +239,7 @@ var GameSceneView = (function (_super) {
         this._gameOverView.addEventListener(egret.Event.REMOVED_FROM_STAGE, function (evt) {
             console.log("gameover view leave stage");
             _this._curScore = 0;
+            _this._curScoreText.text = _this._curScore.toString();
         }, this);
         egret.setTimeout(function () {
             this.isPaused = true;
@@ -274,7 +305,7 @@ var GameSceneView = (function (_super) {
             case 3:
                 this._bird.addEventListener(egret.Event.ENTER_FRAME, function (evt) {
                     _this._birdWithoutShadow.x = _this._bird.x;
-                    _this._birdWithoutShadow.y = _this._bird.y - 30 * (Math.sin((_this._bird.y - 370) * Math.PI / 277)) - 101;
+                    _this._birdWithoutShadow.y = _this._bird.y - 30 * (Math.sin((647 - _this._bird.y) * Math.PI / 277)) - 101;
                     ;
                     //console.log(this._birdWithoutShadow.y);
                 }, this._bird);
@@ -288,6 +319,20 @@ var GameSceneView = (function (_super) {
                 console.log("从右往左");
                 break;
         }
+    };
+    GameSceneView.prototype.prepareAnimation = function () {
+        this.addChild(this._picThree);
+        egret.setTimeout(function () {
+            this.removeChild(this._picThree);
+            this.addChild(this._picTwo);
+            egret.setTimeout(function () {
+                this.removeChild(this._picTwo);
+                this.addChild(this._picOne);
+                egret.setTimeout(function () {
+                    this.removeChild(this._picOne);
+                }, this, 500);
+            }, this, 500);
+        }, this, 500);
     };
     return GameSceneView;
 }(egret.Sprite));

@@ -25,6 +25,10 @@ class GameSceneView extends egret.Sprite{
     //金币栏
     private _coinColumn:egret.Bitmap;
     //
+    private _picOne:egret.Bitmap;
+    private _picTwo:egret.Bitmap;
+    private _picThree:egret.Bitmap;
+
     private isPaused:boolean;
 
     /** 以下为本页面所关联的其他页面 */
@@ -48,6 +52,7 @@ class GameSceneView extends egret.Sprite{
     private _idOfCurLocation:number;
     //当前分数
     private _curScore:number;
+    private _curScoreText:egret.TextField;
 
     //最终分数
     private _finalScore:number;
@@ -61,6 +66,14 @@ class GameSceneView extends egret.Sprite{
         GameSceneView._gameScene = this;
         //初始化游戏场景时的一些设置
         this._curScore = 0;
+        this._curScoreText = new egret.TextField();
+        this._curScoreText.text = this._curScore.toString();
+        this._curScoreText.x = 280;
+        this._curScoreText.y = 40;
+        this._curScoreText.textColor = 0x000000;
+        this._curScoreText.size = 50;
+        this._curScoreText.fontFamily = "Arial";
+        this._curScoreText.bold = true;
         this._bestScore = 0;
         //可跳跃的4个点的坐标
         this._vcLocation = [
@@ -74,7 +87,7 @@ class GameSceneView extends egret.Sprite{
         
         this.initView(displayContainerObject);
         //this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
-        this.isPaused = false;
+        this.isPaused = true;
         
     }
 
@@ -122,7 +135,7 @@ class GameSceneView extends egret.Sprite{
         this._smallPointer.y = this._PointerCenter.y + this._PointerCenterData.height / 2;
         
         this._bird = ResourceUtils.createBitmapByName("shadow_png"); 
-        this._birdData = new egret.BitmapData(this._bird);
+        this._birdData =  new egret.BitmapData(this._bird);
         this._bird.x = 120;
         this._bird.y = 400;
 
@@ -165,19 +178,37 @@ class GameSceneView extends egret.Sprite{
         this._suspendBtn.touchEnabled = true;
         //金币栏
         this.createContentWithShadow(this._coinColumn, 400, 25, "coin_column_png", "coin_column_shadow_png", 10);
-        //this.addChild(this._coinColumn);
-        //console.log(this._coinColumn.x);
+        
+        
         //分数栏 
         this._scoreColumn = ResourceUtils.createBitmapByName("score_column_png");
         this._scoreColumn.x = 125;
+        this._scoreColumn.y = 26;
+        this.addChild(this._scoreColumn);
+        this.addChild(this._curScoreText);
 
-        this._scoreColumn
+        this._picOne = ResourceUtils.createBitmapByName("picone_png");
+        this._picOne.x = 220;
+        this._picOne.y = 400;
+        this._picTwo = ResourceUtils.createBitmapByName("two_png");
+        this._picThree = ResourceUtils.createBitmapByName("three_png");
+        
+        this._picTwo.x = this._picOne.x;
+        this._picTwo.y = this._picOne.y;
+        this._picThree.x = this._picOne.x;
+        this._picThree.y = this._picOne.y;
+        //this.addChild(this._picOne);
+
         //给游戏结束界面的“继续玩”按钮添加点击事件
         this._gameOverView.reply_button.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt:egret.Event)=>{
             this.removeChild(this._gameOverView);
-            if(this.isPaused){
-                this.isPaused = false;
-            }
+            // if(this.isPaused){
+            //     this.isPaused = false;
+            // }
+            this.prepareAnimation();
+            egret.setTimeout(function(){
+            this.isPaused = false;
+            },this, 2000);
             //this.removeChild(this._gameOverView._finalScoreText);
             this._gameOverView.removeChild(this._gameOverView._finalScoreText);
             console.log("remove game overview");
@@ -203,7 +234,16 @@ class GameSceneView extends egret.Sprite{
             }
         }, this)
 
-        this.play();  
+        
+        this.addEventListener(egret.Event.ADDED_TO_STAGE, (evt:egret.Event) => {
+            console.log("on add to stage");
+            this.prepareAnimation();
+            egret.setTimeout(function(){
+            this.isPaused = false;
+            },this, 2000);
+        }, this);
+        
+         this.play(); 
     }
 
     public play():void{
@@ -249,6 +289,7 @@ class GameSceneView extends egret.Sprite{
 		tw.to( {x:this._jumpBtn.x, y:this._jumpBtn.y + 13}, 50 ).wait( 100 )
 		.to({x:this._jumpBtn.x, y:this._jumpBtn.y}, 50);
         this._curScore ++;
+        this._curScoreText.text = this._curScore.toString();
         this.jump();
     }
 
@@ -283,7 +324,7 @@ class GameSceneView extends egret.Sprite{
         this._gameOverView.addEventListener(egret.Event.REMOVED_FROM_STAGE, (evt:egret.Event)=>{
             console.log("gameover view leave stage");
             this._curScore = 0;
-           
+        this._curScoreText.text = this._curScore.toString();
         },this);
 
         egret.setTimeout(function(){
@@ -352,7 +393,7 @@ class GameSceneView extends egret.Sprite{
              case 3:
                 this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
                     this._birdWithoutShadow.x = this._bird.x;
-                    this._birdWithoutShadow.y = this._bird.y - 30 * (Math.sin((this._bird.y - 370) * Math.PI / 277)) - 101;;
+                    this._birdWithoutShadow.y = this._bird.y - 30 * (Math.sin((647 - this._bird.y) * Math.PI / 277)) - 101;;
                     //console.log(this._birdWithoutShadow.y);
                 }, this._bird);
                 console.log("从下到上");
@@ -366,5 +407,20 @@ class GameSceneView extends egret.Sprite{
                 console.log("从右往左");
                 break;
          }
+    }
+
+    private prepareAnimation():void{
+        this.addChild(this._picThree);
+        egret.setTimeout(function(){
+            this.removeChild(this._picThree);
+            this.addChild(this._picTwo)
+            egret.setTimeout(function(){
+                this.removeChild(this._picTwo);
+                this.addChild(this._picOne);
+                egret.setTimeout(function(){
+                    this.removeChild(this._picOne);
+                },this, 500)
+            },this, 500)
+        },this, 500);
     }
 }
