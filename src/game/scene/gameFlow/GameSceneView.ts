@@ -64,21 +64,25 @@ class GameSceneView extends egret.Sprite{
         this._bestScore = 0;
         //可跳跃的4个点的坐标
         this._vcLocation = [
-            new egret.Point(120, 350),
-            new egret.Point(120, 627),
-            new egret.Point(397, 627),
-            new egret.Point(397, 350),
+            new egret.Point(140, 370),
+            new egret.Point(140, 647),
+            new egret.Point(417, 647),
+            new egret.Point(417, 370),
         ];
         this._idOfCurLocation = 0;
         this._gamePauseView = new GamePauseView(displayContainerObject);
         
         this.initView(displayContainerObject);
+        //this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
         this.isPaused = false;
         
     }
 
+    // private onAddToStage(event: egret.Event){
+    //     this.initView(displayContainerObject);
+    // }
     //初始化GameScene 游戏开始场景
-    public initView(displayContainerObject:egret.DisplayObjectContainer):void{
+        public initView(displayContainerObject:egret.DisplayObjectContainer):void{
 
         this._gameOverView = new GameOverView(this._curScore, 0);
        //背景图片
@@ -105,7 +109,17 @@ class GameSceneView extends egret.Sprite{
         
         this._pointer = ResourceUtils.createBitmapByName("pointer_png");
         this._PointerData = new egret.BitmapData(this._pointer);
-      
+        this._pointer.anchorOffsetX = this._PointerData.width / 2;
+        this._pointer.anchorOffsetY = this._PointerData.height - this._PointerData.height / 20;
+        this._pointer.x = 230;
+        this._pointer.y = 503;
+
+        this._smallPointer = ResourceUtils.createBitmapByName("pointer_png");
+        this._smallPointerData = new egret.BitmapData(this._smallPointer);
+        this._smallPointer.anchorOffsetX = this._smallPointerData.width / 2;
+        this._smallPointer.anchorOffsetY = this._smallPointerData.height / 20;
+        this._smallPointer.x = this._PointerCenter.x + this._PointerCenterData.width / 2;
+        this._smallPointer.y = this._PointerCenter.y + this._PointerCenterData.height / 2;
         
         this._bird = ResourceUtils.createBitmapByName("shadow_png"); 
         this._birdData = new egret.BitmapData(this._bird);
@@ -117,6 +131,7 @@ class GameSceneView extends egret.Sprite{
         this._birdWithoutShadow.y = this._bird.y - 101;
 
         this.addChild(this._pointer);
+        this.addChild(this._smallPointer);
         this.addChild(this._PointerCenter);
         this.addChild(this._bird);
 
@@ -155,23 +170,22 @@ class GameSceneView extends egret.Sprite{
         //分数栏 
         this._scoreColumn = ResourceUtils.createBitmapByName("score_column_png");
         this._scoreColumn.x = 125;
-        this._scoreColumn.y = 26;
-        this.addChild(this._scoreColumn);
 
+        this._scoreColumn
         //给游戏结束界面的“继续玩”按钮添加点击事件
         this._gameOverView.reply_button.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt:egret.Event)=>{
             this.removeChild(this._gameOverView);
+            if(this.isPaused){
+                this.isPaused = false;
+            }
             //this.removeChild(this._gameOverView._finalScoreText);
             this._gameOverView.removeChild(this._gameOverView._finalScoreText);
             console.log("remove game overview");
             this._jumpBtn.touchEnabled = true;
         }, this);
 
-        //game over view添加到stage时触发行为
-        
-    
-        //this._gameOverView.removeEventListener()
-        
+
+        //GameOverView的“回到主页”按钮按下时触发
         this._gameOverView.home_button.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt:egret.Event) =>{
             this.removeChildren();
             var gameWelcomeView:GameWelcomeView = new GameWelcomeView(displayContainerObject);
@@ -194,22 +208,27 @@ class GameSceneView extends egret.Sprite{
 
     public play():void{
         this._pointer.addEventListener(egret.Event.ENTER_FRAME, (evt:egret.Event)=>{
-            //this._pointer.rotation += 10;
             this._pointer.anchorOffsetX = this._PointerData.width / 2;
             this._pointer.anchorOffsetY = this._PointerData.height - this._PointerData.height / 20;
             this._pointer.x = this._PointerCenter.x + this._PointerCenterData.width / 2;
             this._pointer.y = this._PointerCenter.y + this._PointerCenterData.height / 2;
+
+             this._smallPointer.anchorOffsetX = this._smallPointerData.width / 2;
+            this._smallPointer.anchorOffsetY = this._PointerData.height - this._PointerData.height / 20;
+            this._smallPointer.x = this._PointerCenter.x + this._PointerCenterData.width / 2;
+            this._smallPointer.y = this._PointerCenter.y + this._PointerCenterData.height / 2;
+
             if(this.isPaused){
                 this._pointer.rotation += 0;
+                this._smallPointer.rotation += 0;
                 this._jumpBtn.touchEnabled = false;
             }else{
-                this._pointer.rotation += 3;
+                this._smallPointer.rotation += 2 + 0.1 * this._curScore;
+                this._pointer.rotation += 3 + 0.1 * this._curScore;
+                //console.log("smallpointer rotation:" + this._smallPointer.rotation);
                 this._jumpBtn.touchEnabled = true;
             }
 
-            //this._pointer.rotation += 3;
-            
-            
             //判断此时小鸟和指针位置重合
             var birdPoint:egret.Point = new egret.Point(this._bird.x, this._bird.y);
             if(this.pointerCoinsideWithBird(birdPoint, this._pointer.rotation)){
@@ -231,7 +250,6 @@ class GameSceneView extends egret.Sprite{
 		.to({x:this._jumpBtn.x, y:this._jumpBtn.y}, 50);
         this._curScore ++;
         this.jump();
-
     }
 
     private onSuspendBtnClicked():void{
@@ -247,42 +265,44 @@ class GameSceneView extends egret.Sprite{
         console.log("rotation = " + this._pointer.rotation);
         this._gameOverView.finalScore = this._curScore;
         this._gameOverView._finalScoreText.text = this._gameOverView.finalScore.toString();
-        this._curScore = 0;
-
+        //this._curScore = 0;
+        
         console.log("FINAL SCORE: "+ this._gameOverView.finalScore);
         if(this._gameOverView.finalScore > this._bestScore){
             this._bestScore = this._gameOverView.finalScore;
         }
         
+        this._gameOverView.bestScore = this._bestScore;
+        this._gameOverView._bestScoreText.text = this._gameOverView.bestScore.toString();
         console.log("BEST SCORE: "+ this._bestScore);
-        //添加game over页面
+        //添加game 
         this.addChild(this._gameOverView);
         this._gameOverView.addChild(this._gameOverView._finalScoreText);
+        this._gameOverView.addChild(this._gameOverView._bestScoreText);
         
         this._gameOverView.addEventListener(egret.Event.REMOVED_FROM_STAGE, (evt:egret.Event)=>{
-            //this.isPaused = false;
             console.log("gameover view leave stage");
             this._curScore = 0;
            
         },this);
-        this._gameOverView.addEventListener(egret.Event.ADDED_TO_STAGE, (evt:egret.Event)=>{
-            //this.isPaused = true;
-            console.log("GameOverView added to stage");
-            //this._pointer.rotation += 0;
-            //console.log("Then rotation = " + this._pointer.rotation);
-        },this);
+
+        egret.setTimeout(function(){
+            this.isPaused = true;
+        },this, 200);
         
     }
 
     //判断小鸟落地时是否与指针位置重合
     private pointerCoinsideWithBird(bird:egret.Point, rotation:number):boolean{
-        if(bird.x == 120 && bird.y == 350 && rotation == -45){
+        var hitSmallPointer:boolean = this._smallPointer.hitTestPoint(bird.x, bird.y);
+        var hitPointer:boolean = this._pointer.hitTestPoint(bird.x, bird.y);
+        if(bird.x == 140 && bird.y == 370 && (hitPointer || hitSmallPointer)){
             return true;
-        }else if(bird.x == 120 && bird.y == 627 && rotation == -135){
+        }else if(bird.x == 140 && bird.y == 647 && (hitPointer || hitSmallPointer)){
             return true;
-        }else if(bird.x == 397 && bird.y == 627 && rotation == 135){
+        }else if(bird.x == 417 && bird.y == 647 && (hitPointer || hitSmallPointer)){
             return true;
-        }else if(bird.x == 397 && bird.y == 350 && rotation == 45){
+        }else if(bird.x == 417 && bird.y == 370 && (hitPointer || hitSmallPointer)){
             return true;
         }else{
             return false;
@@ -318,13 +338,13 @@ class GameSceneView extends egret.Sprite{
              case 1:
                 this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
                     this._birdWithoutShadow.x = this._bird.x;
-                    this._birdWithoutShadow.y = this._bird.y - 30 * (Math.sin((this._bird.y - 350) * Math.PI / 277)) - 101;     
+                    this._birdWithoutShadow.y = this._bird.y - 30 * (Math.sin((this._bird.y - 370) * Math.PI / 277)) - 101;     
                 }, this._bird);
                 break;
              case 2:
                 this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
                     this._birdWithoutShadow.x = this._bird.x;
-                    this._birdWithoutShadow.y = this._bird.y - 30 * (Math.sin((this._bird.x - 120) * Math.PI / 277)) - 101;
+                    this._birdWithoutShadow.y = this._bird.y - 30 * (Math.sin((this._bird.x - 140) * Math.PI / 277)) - 101;
                     
                 },this._bird); 
                 console.log("从左往右");
@@ -332,7 +352,7 @@ class GameSceneView extends egret.Sprite{
              case 3:
                 this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
                     this._birdWithoutShadow.x = this._bird.x;
-                    this._birdWithoutShadow.y = this._bird.y - 30 * (Math.sin((this._bird.y - 350) * Math.PI / 277)) - 101;;
+                    this._birdWithoutShadow.y = this._bird.y - 30 * (Math.sin((this._bird.y - 370) * Math.PI / 277)) - 101;;
                     //console.log(this._birdWithoutShadow.y);
                 }, this._bird);
                 console.log("从下到上");
@@ -340,7 +360,7 @@ class GameSceneView extends egret.Sprite{
              default:
                 this._bird.addEventListener(egret.Event.ENTER_FRAME,(evt:egret.Event)=>{
                     this._birdWithoutShadow.x = this._bird.x;
-                    this._birdWithoutShadow.y = this._bird.y - 30 * (Math.sin((397 - this._bird.x) * Math.PI / 277)) - 101;
+                    this._birdWithoutShadow.y = this._bird.y - 30 * (Math.sin((417 - this._bird.x) * Math.PI / 277)) - 101;
                     
                 },this._bird);
                 console.log("从右往左");

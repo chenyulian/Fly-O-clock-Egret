@@ -48,6 +48,9 @@ var GameOverView = (function (_super) {
         this._finalScoreText.x = 300;
         this._finalScoreText.y = 350;
         //this._finalScoreText.text = this.finalScore.toString();
+        this._bestScoreText = new egret.TextField();
+        this._bestScoreText.x = 500;
+        this._bestScoreText.y = 400;
         console.log("final score: " + this.finalScore);
     };
     GameOverView.prototype.replyBtnOnClicked = function () {

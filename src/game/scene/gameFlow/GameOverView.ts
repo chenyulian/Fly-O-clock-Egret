@@ -9,6 +9,7 @@ class GameOverView extends egret.Sprite{
 	private _gameWelcomeView:GameWelcomeView;
 	private _gameSceneView:GameSceneView;
 	public _finalScoreText:egret.TextField;
+	public _bestScoreText:egret.TextField
 
 	public constructor(curScore:number, bestScore:number) {
 		super();
@@ -53,7 +54,9 @@ class GameOverView extends egret.Sprite{
 		this._finalScoreText.x = 300;
 		this._finalScoreText.y = 350;
 		//this._finalScoreText.text = this.finalScore.toString();
-
+		this._bestScoreText = new egret.TextField();
+		this._bestScoreText.x = 500;
+		this._bestScoreText.y = 400;
 		
 		console.log("final score: " + this.finalScore);
 	}
